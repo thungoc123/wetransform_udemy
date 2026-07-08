@@ -1,12 +1,20 @@
-Dự án này là gì?
-Dự án giải quyết vấn đề gì?
-Ai là người sử dụng?
-Giá trị cốt lõi của sản phẩm là gì?
-MVP gồm những tính năng nào?
-Những tính năng nào chưa nằm trong phạm vi?
-Hệ thống gồm những module nào?
-Luồng nghiệp vụ chính diễn ra như thế nào?
-Có những ràng buộc nghiệp vụ hoặc kỹ thuật nào?
-Stack công nghệ là gì?
-Tiêu chí thành công của dự án là gì?
-AI cần tuân thủ những quy tắc nào khi tham gia phát triển?
+1. Dự án này là gì?
+
+Đây là một nền tảng AI Learning Analytics cho giáo viên bán khóa học trên Udemy, giúp phân tích hành vi học viên, tìm điểm học viên thường bỏ cuộc, gợi ý nguyên nhân và đề xuất cách cải thiện khóa học.
+
+2. Dự án giải quyết vấn đề gì?
+
+Dự án giải quyết vấn đề: giáo viên không biết vì sao học viên dừng học và không biết cần sửa gì để tăng tỷ lệ hoàn thành khóa học.
+
+3. Ai là người sử dụng?
+
+Người sử dụng chính là giáo viên/course creator trên Udemy.
+
+Người hưởng lợi gián tiếp là học viên, vì họ có thể nhận được nhắc nhở, gợi ý học tiếp và trải nghiệm khóa học tốt hơn.
+
+4. Giá trị cốt lõi của sản phẩm là gì?
+
+Giá trị cốt lõi là biến dữ liệu học tập thành insight có thể hành động:
+
+Biết học viên dừng ở đâu, vì sao dừng, và giáo viên nên làm gì tiếp theo.
+
