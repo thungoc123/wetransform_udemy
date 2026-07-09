@@ -35,16 +35,19 @@
 
 | Layer | Công nghệ | Ghi chú |
 |---|---|---|
-| **Frontend** | ? | Framework / UI Library / State Management |
-| **Backend** | ? | Framework / Runtime / Language |
-| **Database** | ? | DB chính / Cache / Search Engine |
-| **Infrastructure** | ? | Cloud / Container / Orchestration |
-| **CI/CD** | ? | Công cụ pipeline |
-| **Monitoring** | ? | Log / Metrics / Alert |
-| **Auth** | ? | JWT / OAuth / ... |
-| **Payment** | ? | Nếu có |
-| **Notification** | ? | Email / Push / SMS |
-| **Storage** | ? | File / Object storage |
+| **Frontend** | Next.js 14 + shadcn/ui + Tailwind CSS + Recharts | TanStack Query cho state |
+| **Backend** | Python 3.11 + FastAPI + Uvicorn | Async ASGI, auto Swagger docs |
+| **AI/Agent** | LangGraph + LangChain + OpenAI GPT-4o | Agent orchestration, Tool use, Memory |
+| **Database** | PostgreSQL 16 / Redis 7 | Redis: cache + Celery broker |
+| **Infrastructure** | Docker + Docker Compose | MVP local. Production: TBD |
+| **CI/CD** | GitHub Actions | Lint + Test + Build |
+| **Monitoring** | structlog (JSON) | Structured log + correlation_id |
+| **Auth** | PyJWT + bcrypt | JWT Bearer Token |
+| **Payment** | Không có | Giáo viên bán trên Udemy |
+| **Notification** | SendGrid / SMTP | Email reminder cho học viên (US-006) |
+| **Storage** | Local filesystem (MVP) | File CSV/XLSX upload |
+| **ORM** | SQLAlchemy 2.0 + Alembic | Migration + async query |
+| **Background** | Celery + Redis | Parse file, agent exec, gửi email |
 
 > ⚠️ Stack trên KHÔNG được thay đổi trong 24h. Mọi đề xuất đổi stack → ghi vào Decision Log.
 
