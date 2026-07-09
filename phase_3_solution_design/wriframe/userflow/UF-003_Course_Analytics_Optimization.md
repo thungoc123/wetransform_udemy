@@ -141,7 +141,7 @@ Tài liệu này đặc tả chi tiết luồng phân tích sức khỏe khóa h
 flowchart TD
     Start([Bắt đầu]) --> CheckData{D-001: Có dữ liệu khóa học?}
     
-    CheckData -- NO (EF-001) --> EmptyDash[Hiển thị Giao diện trống]
+    CheckData -- "NO (EF-001)" --> EmptyDash[Hiển thị Giao diện trống]
     EmptyDash --> ClickImport[Nhấn CTA Kết nối dữ liệu] --> Redirect[Chuyển sang UF-002]
     
     CheckData -- YES --> RenderOverview[Tải Dashboard tổng quan khóa học]
@@ -151,7 +151,7 @@ flowchart TD
     TabDropOff --> GetFunnel[Hệ thống hiển thị Biểu đồ hình phễu]
     
     GetFunnel --> CheckDropOff{D-002: Drop-off > Ngưỡng 20%?}
-    CheckDropOff -- YES --> HighlightRed[Tô đỏ bài học & Đưa vào Điểm nóng]
+    CheckDropOff -- YES --> HighlightRed["Tô đỏ bài học và Đưa vào Điểm nóng"]
     CheckDropOff -- NO --> StyledNormal[Hiển thị bài giảng bình thường]
     
     HighlightRed --> ClickLesson[Nhấp chọn xem chi tiết Bài học]
@@ -159,25 +159,25 @@ flowchart TD
     
     ClickLesson --> CheckStatsSig{D-003: Số học viên >= 30?}
     
-    CheckStatsSig -- NO (EF-002) --> ShowLowStats[Hiển thị cảnh báo: Thiếu dữ liệu thống kê]
+    CheckStatsSig -- "NO (EF-002)" --> ShowLowStats[Hiển thị cảnh báo: Thiếu dữ liệu thống kê]
     
     CheckStatsSig -- YES --> CheckVideo{D-004: Bài học là Video?}
     
-    CheckVideo -- NO (EF-003) --> RenderBarChart[Hiển thị Biểu đồ cột hoàn thành bài tập/file]
+    CheckVideo -- "NO (EF-003)" --> RenderBarChart[Hiển thị Biểu đồ cột hoàn thành bài tập/file]
     CheckVideo -- YES --> RenderTimeline[Hiển thị Biểu đồ dòng thời gian giữ chân học viên]
     
     RenderTimeline --> OpenAI[Mở khu vực Phân tích AI]
     RenderBarChart --> OpenAI
     
-    OpenAI --> ShowDisclaimer[Hiển thị Tuyên bố miễn trừ trách nhiệm AI (BR-009)]
-    ShowDisclaimer --> RenderInsights[Hiển thị Giả thuyết nguyên nhân & Đề xuất giải pháp]
+    OpenAI --> ShowDisclaimer["Hiển thị Tuyên bố miễn trừ trách nhiệm AI (BR-009)"]
+    ShowDisclaimer --> RenderInsights["Hiển thị Giả thuyết nguyên nhân và Đề xuất giải pháp"]
     
     RenderInsights --> ClickOption{Giáo viên chọn option?}
     
-    ClickOption -- "Bấm Đã áp dụng" --> MarkApplied[Ghi nhận áp dụng & Cập nhật mô hình AI]
-    ClickOption -- "Bấm Bỏ qua" --> HideOption[Ghi nhận bỏ qua, ẩn gợi ý & Điều chỉnh AI]
+    ClickOption -- "Bấm Đã áp dụng" --> MarkApplied["Ghi nhận áp dụng và Cập nhật mô hình AI"]
+    ClickOption -- "Bấm Bỏ qua" --> HideOption["Ghi nhận bỏ qua, ẩn gợi ý và Điều chỉnh AI"]
     
-    MarkApplied --> Success([Hoàn thành Phân tích & Tối ưu hóa])
+    MarkApplied --> Success(["Hoàn thành Phân tích và Tối ưu hóa"])
     HideOption --> Success
 ```
 

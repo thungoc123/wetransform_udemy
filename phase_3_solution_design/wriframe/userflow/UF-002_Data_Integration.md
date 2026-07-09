@@ -130,33 +130,33 @@ flowchart TD
     AccessSource --> ChooseMethod{Chọn phương thức nạp?}
     
     %% API Branch
-    ChooseMethod -- "API Udemy" --> InputAPI[Nhập Client ID & API Key]
-    InputAPI --> ClickConnect[Nhấn Kết nối & Đồng bộ]
+    ChooseMethod -- "API Udemy" --> InputAPI["Nhập Client ID và API Key"]
+    InputAPI --> ClickConnect["Nhấn Kết nối và Đồng bộ"]
     ClickConnect --> ConnectAPI{Kiểm tra kết nối API?}
-    ConnectAPI -- NO (EF-001) --> ShowAPIError[Hiển thị lỗi API / Timeout] --> InputAPI
+    ConnectAPI -- "NO (EF-001)" --> ShowAPIError[Hiển thị lỗi API / Timeout] --> InputAPI
     
     %% File Branch
     ChooseMethod -- "Tải File" --> DragFile[Kéo thả file CSV/XLSX]
-    DragFile --> ClickUpload[Nhấn Tải lên & Phân tích]
-    ClickUpload --> ValFormat{Kiểm tra định dạng & cấu trúc? (BR-003)}
-    ValFormat -- NO (EF-002) --> ShowFileError[Hiển thị lỗi cấu trúc file] --> DragFile
+    DragFile --> ClickUpload["Nhấn Tải lên và Phân tích"]
+    ClickUpload --> ValFormat{"Kiểm tra định dạng và cấu trúc? (BR-003)"}
+    ValFormat -- "NO (EF-002)" --> ShowFileError[Hiển thị lỗi cấu trúc file] --> DragFile
     
     %% Common Processing
     ConnectAPI -- YES --> PullData[Tải dữ liệu từ Udemy]
     ValFormat -- YES --> ParseFile[Đọc và parse dữ liệu file]
     
-    PullData --> ValLimit{Vượt giới hạn MVP?\n(Max 3 khóa học, 2600 học viên - BR-005)}
+    PullData --> ValLimit{"Vượt giới hạn MVP?<br>(Max 3 khóa học, 2600 học viên - BR-005)"}
     ParseFile --> ValLimit
     
-    ValLimit -- YES (EF-003) --> ShowLimitError[Hiển thị lỗi vượt giới hạn MVP] --> AccessSource
+    ValLimit -- "YES (EF-003)" --> ShowLimitError[Hiển thị lỗi vượt giới hạn MVP] --> AccessSource
     
-    ValLimit -- NO --> CheckLogConsistency{Dữ liệu logs có đồng nhất? (EF-004)}
+    ValLimit -- NO --> CheckLogConsistency{"Dữ liệu logs có đồng nhất? (EF-004)"}
     CheckLogConsistency -- NO --> LogWarning[Ghi nhận cảnh báo logs trống] --> Anonymize
-    CheckLogConsistency -- YES --> Anonymize[Ẩn danh hóa thông tin học viên (BR-004)]
+    CheckLogConsistency -- YES --> Anonymize["Ẩn danh hóa thông tin học viên (BR-004)"]
     
     Anonymize --> SaveDB[Lưu vào Cơ sở dữ liệu]
     SaveDB --> TriggerAI[Kích hoạt Background Job phân tích]
-    TriggerAI --> RedirectDash[Hiển thị trạng thái Thành công & Chuyển hướng Dashboard]
+    TriggerAI --> RedirectDash["Hiển thị trạng thái Thành công và Chuyển hướng Dashboard"]
     RedirectDash --> Success([Nạp dữ liệu Thành công])
 ```
 

@@ -121,21 +121,21 @@ flowchart TD
     CheckMultiRisk -- YES --> MergeRisk[Lấy bài giảng có tiến độ xa nhất làm tham chiếu] --> CheckSpam
     CheckMultiRisk -- NO --> GetSingleRisk[Lấy bài giảng drop-off hiện tại] --> CheckSpam
     
-    CheckSpam{D-001: Đã gửi nhắc nhở trong 7 ngày qua? (BR-010)}
-    CheckSpam -- YES (EF-001) --> BlockIntervene[Khóa nút gửi & Hiển thị cảnh báo Spam] --> ViewList
+    CheckSpam{"D-001: Đã gửi nhắc nhở trong 7 ngày qua? (BR-010)"}
+    CheckSpam -- "YES (EF-001)" --> BlockIntervene["Khóa nút gửi và Hiển thị cảnh báo Spam"] --> ViewList
     CheckSpam -- NO --> FetchTemplate[Hệ thống tải mẫu Best Practice - BR-011]
     
     FetchTemplate --> Personalize[Cá nhân hóa nội dung: Tên, Bài học, Lời khuyên]
     Personalize --> ShowModal[Hiển thị Modal Soạn thảo tin nhắn]
     
     ShowModal --> ClickSend{Giảng viên nhấn Gửi?}
-    ClickSend -- NO (Hủy) --> CloseModal[Đóng Modal] --> ViewList
+    ClickSend -- "NO (Hủy)" --> CloseModal[Đóng Modal] --> ViewList
     
     ClickSend -- YES --> CheckDelivery{Gửi tin thành công?}
-    CheckDelivery -- NO (EF-002) --> SetDeliveryError[Đổi trạng thái: Gửi lỗi & Thông báo lỗi] --> ViewList
+    CheckDelivery -- "NO (EF-002)" --> SetDeliveryError["Đổi trạng thái: Gửi lỗi và Thông báo lỗi"] --> ViewList
     CheckDelivery -- YES --> SetMonitoring[Đổi trạng thái: Đang theo dõi phản hồi 7 ngày]
     
-    SetMonitoring --> ActiveWait{D-002: Học viên quay lại trong 7 ngày? (BR-012)}
+    SetMonitoring --> ActiveWait{"D-002: Học viên quay lại trong 7 ngày? (BR-012)"}
     ActiveWait -- YES --> SetReengaged[Cập nhật trạng thái: Re-engaged]
     SetReengaged --> UpdateStats[Cập nhật Tỷ lệ can thiệp thành công trên Dashboard]
     UpdateStats --> SuccessState([Thành công - Học viên quay lại])
