@@ -1,178 +1,700 @@
-# API Contract Lite Spec - Nền tảng AI Learning Analytics
+# API Specification Overview
 
-Tài liệu này xác định API Contract Lite đóng vai trò là hợp đồng giao tiếp giữa AI Frontend và AI Backend để phát triển các tính năng MVP của hệ thống AI Learning Analytics cho giáo viên Udemy.
-
----
-
-## Danh sách API
-
-* [[POST] Login](#1-post-login)
-* [[POST] Connect Udemy API](#2-post-connect-udemy-api)
-* [[POST] Upload Udemy Export File](#3-post-upload-udemy-export-file)
-* [[GET] Get Course List](#4-get-get-course-list)
-* [[GET] Get Course Dashboard Overview](#5-get-get-course-dashboard-overview)
-* [[GET] Get Drop-off Point Analysis](#6-get-get-drop-off-point-analysis)
-* [[GET] Get AI Insights for Lesson](#7-get-get-ai-insights-for-lesson)
-* [[POST] Update Recommendation Status](#8-post-update-recommendation-status)
-* [[GET] Get At-risk Students & Message Template](#9-get-get-at-risk-students--message-template)
-* [[POST] Send Student Reminder](#10-post-send-student-reminder)
+- **API Specification ID**: API-001
+- **Related User Flow**: UF-001_Authentication.md, UF-002_Data_Integration.md, UF-003_Course_Analytics_Optimization.md, UF-004_Student_Intervention.md
+- **Related Screen Specification**: SS-001_Authentication.md, SS-002_Data_Integration.md, SS-003_Course_Analytics_Optimization.md, SS-004_Student_Intervention.md
+- **Feature Name**: AI Learning Analytics MVP
+- **Description**: Hợp đồng API implementation-ready cho các luồng đăng nhập, kết nối dữ liệu Udemy, phân tích khóa học, đề xuất AI và can thiệp học viên.
 
 ---
 
-### 1. [POST] Login
+# API Inventory
 
-| Field | Nội dung |
-|---|---|
-| **API Name** | Login |
-| **Purpose** | Giáo viên đăng nhập để xác thực tài khoản vào hệ thống. |
-| **Endpoint** | `POST /api/v1/auth/login` |
-| **Actor** | Teacher / Course Creator |
-| **Input** | `email` (string, required), `password` (string, required) |
-| **Output** | `token` (string), `teacherId` (string), `name` (string) |
-| **Business Rules** | - Mật khẩu phải được mã hóa trước khi truyền tải.<br>- Sau 5 lần đăng nhập sai liên tiếp, tài khoản của giáo viên sẽ tạm thời bị khóa trong vòng 15 phút. |
-| **Error Cases** | - `400 Bad Request` - Thiếu các trường bắt buộc.<br>- `401 Unauthorized` - Email hoặc mật khẩu không chính xác.<br>- `423 Locked` - Tài khoản đang bị khóa tạm thời. |
-| **Related AC** | US-001 AC-01, AC-02, AC-03 |
-
----
-
-### 2. [POST] Connect Udemy API
-
-| Field | Nội dung |
-|---|---|
-| **API Name** | Connect Udemy API |
-| **Purpose** | Thiết lập kết nối API Udemy tự động. |
-| **Endpoint** | `POST /api/v1/data/udemy-connection` |
-| **Actor** | Teacher / Course Creator |
-| **Input** | `clientId` (string, required), `clientSecret` (string, required) |
-| **Output** | `connectionId` (string), `status` (string, e.g., "connected"), `connectedAt` (datetime) |
-| **Business Rules** | Hệ thống phải kiểm tra thông tin kết nối bằng cách gửi yêu cầu xác thực thử tới Udemy trước khi lưu trạng thái. |
-| **Error Cases** | - `400 Bad Request` - Thiếu Client ID hoặc Client Secret.<br>- `401 Unauthorized` - Thông tin kết nối không hợp lệ từ phía Udemy. |
-| **Related AC** | US-002 AC-01 |
+| API ID | Endpoint | Method | Purpose | Related Screen(s) |
+|---|---|---|---|---|
+| API-001 | /api/v1/auth/login | POST | Xác thực giáo viên và tạo session | S-001, S-002, S-003 |
+| API-002 | /api/v1/data/sources | GET | Lấy các phương thức ingest dữ liệu có sẵn | S-101 |
+| API-003 | /api/v1/data/udemy-connection | POST | Thiết lập kết nối API Udemy | S-102 |
+| API-004 | /api/v1/data/upload | POST | Upload file Udemy export và bắt đầu xử lý | S-103, S-104, S-105 |
+| API-005 | /api/v1/courses | GET | Lấy danh sách khóa học thuộc quyền giáo viên | S-201 |
+| API-006 | /api/v1/courses/{courseId}/dashboard | GET | Lấy tổng quan dashboard khóa học | S-201 |
+| API-007 | /api/v1/courses/{courseId}/drop-off-analysis | GET | Lấy phân tích drop-off và hot spots | S-202 |
+| API-008 | /api/v1/courses/{courseId}/lessons/{lessonId}/analytics | GET | Lấy chi tiết phân tích bài học | S-203 |
+| API-009 | /api/v1/courses/{courseId}/lessons/{lessonId}/ai-insights | GET | Lấy gợi ý AI cho bài học | S-204 |
+| API-010 | /api/v1/courses/{courseId}/lessons/{lessonId}/recommendations/{recommendationId}/action | POST | Ghi nhận hành động áp dụng/bỏ qua đề xuất AI | S-204 |
+| API-011 | /api/v1/courses/{courseId}/lessons/{lessonId}/at-risk-students | GET | Lấy danh sách học viên At-risk và mẫu nhắc nhở | S-301, S-302 |
+| API-012 | /api/v1/courses/{courseId}/lessons/{lessonId}/send-reminder | POST | Gửi nhắc nhở cho học viên được chọn | S-302, S-303, S-304 |
 
 ---
 
-### 3. [POST] Upload Udemy Export File
+## API-001: Login
 
-| Field | Nội dung |
-|---|---|
-| **API Name** | Upload Udemy File |
-| **Purpose** | Giáo viên tải tệp CSV/XLSX xuất từ Udemy lên hệ thống để phân tích thủ công. |
-| **Endpoint** | `POST /api/v1/data/upload` |
-| **Actor** | Teacher / Course Creator |
-| **Input** | `file` (binary/multipart, required, format: CSV/XLSX) |
-| **Output** | `importId` (string), `status` (string, e.g., "processing"), `fileName` (string) |
-| **Business Rules** | - Chỉ chấp nhận các tệp xuất bản chính thức từ Udemy.<br>- Dữ liệu cá nhân nhạy cảm của học viên (như Email) phải được mã hóa/ẩn danh hóa ngay trong quá trình nạp dữ liệu.<br>- Giới hạn MVP: Tổng quy mô xử lý không quá 3 khóa học mẫu và 2.600 học viên. |
-| **Error Cases** | - `400 Bad Request` - Không tải file hoặc file sai định dạng/thiếu các cột dữ liệu bắt buộc.<br>- `413 Payload Too Large` - Kích thước tệp vượt giới hạn cho phép. |
-| **Related AC** | US-002 AC-02, AC-03 |
+### API Information
+- **API ID**: API-001
+- **Endpoint**: POST /api/v1/auth/login
+- **HTTP Method**: POST
+- **Purpose**: Xác thực giáo viên để đăng nhập vào hệ thống.
+- **Related Screens**: S-001, S-002, S-003
+- **Related User Flow Steps**: UF-001 Happy Path, Exception Flows EF-001, EF-002, EF-003
 
----
+### Trigger
+- Người dùng nhập email và mật khẩu trên S-001 và bấm đăng nhập.
+- Nếu thông tin sai, frontend chuyển sang S-002.
 
-### 4. [GET] Get Course List
+### Authentication
+- Public
 
-| Field | Nội dung |
-|---|---|
-| **API Name** | Get Course List |
-| **Purpose** | Lấy danh sách các khóa học đã được kết nối/import của giáo viên hiện tại. |
-| **Endpoint** | `GET /api/v1/courses` |
-| **Actor** | Teacher / Course Creator |
-| **Input** | None |
-| **Output** | `courses` (array of objects) gồm: `courseId` (string), `title` (string), `studentCount` (int), `status` (string) |
-| **Business Rules** | Chỉ trả về danh sách các khóa học thuộc quyền sở hữu của giáo viên đang đăng nhập (xác thực qua token). |
-| **Error Cases** | - `401 Unauthorized` - Token không hợp lệ hoặc đã hết hạn. |
-| **Related AC** | US-003 AC-02 |
+### Authorization
+- Không cần quyền bổ sung; tài khoản phải hợp lệ.
 
----
+### Request
 
-### 5. [GET] Get Course Dashboard Overview
+#### Headers
+- Authorization: Không bắt buộc
+- Content-Type: application/json
+- Accept: application/json
 
-| Field | Nội dung |
-|---|---|
-| **API Name** | Get Course Dashboard Overview |
-| **Purpose** | Lấy dữ liệu và chỉ số tổng quan phục vụ cho việc hiển thị Dashboard khóa học. |
-| **Endpoint** | `GET /api/v1/courses/{courseId}/dashboard` |
-| **Actor** | Teacher / Course Creator |
-| **Input** | `courseId` (string, required in path) |
-| **Output** | `courseId` (string), `completionRate` (float), `dropOffRate` (float), `activeStudents` (int), `inactiveStudents` (int), `atRiskStudents` (int) |
-| **Business Rules** | - Học viên Active: Có tương tác trong 7 ngày gần nhất.<br>- Học viên Inactive: Không có tương tác trong 30 ngày gần nhất.<br>- Học viên At-risk: Không học bài mới từ 14 đến 29 ngày.<br>- Kiểm tra quyền sở hữu khóa học trước khi trả về dữ liệu. |
-| **Error Cases** | - `403 Forbidden` - Giáo viên không có quyền truy cập khóa học này.<br>- `404 Not Found` - Không tồn tại khóa học hoặc chưa có dữ liệu phân tích. |
-| **Related AC** | US-003 AC-01 |
+#### Path Parameters
+- Không có
 
----
+#### Query Parameters
+- Không có
 
-### 6. [GET] Get Drop-off Point Analysis
+#### Request Body
+| Name | Type | Required | Validation | Description |
+|---|---|---|---|---|
+| email | string | Yes | Format email, không được trống | Email giáo viên |
+| password | string | Yes | Không được trống | Mật khẩu đăng nhập |
 
-| Field | Nội dung |
-|---|---|
-| **API Name** | Get Drop-off Point Analysis |
-| **Purpose** | Lấy sơ đồ phễu qua các bài học để định vị vị trí dừng học phổ biến nhất. |
-| **Endpoint** | `GET /api/v1/courses/{courseId}/drop-off-analysis` |
-| **Actor** | Teacher / Course Creator |
-| **Input** | `courseId` (string, required in path) |
-| **Output** | `modules` (array of objects) gồm:<br>- `moduleId` (string), `moduleTitle` (string)<br>- `lessons` (array of objects) gồm: `lessonId` (string), `lessonTitle` (string), `type` (string), `dropOffRate` (float), `hasWarning` (boolean), `timelineAnalysis` (array of objects, optional) |
-| **Business Rules** | - Đánh dấu `hasWarning` = true nếu bài học có tỷ lệ drop-off > 20%.<br>- Chỉ thực hiện phân tích chi tiết nếu bài học có tối thiểu 30 học viên đã từng tham gia học. |
-| **Error Cases** | - `403 Forbidden` - Giáo viên không có quyền truy cập khóa học này.<br>- `404 Not Found` - Không tồn tại dữ liệu phân tích điểm dừng cho khóa học này. |
-| **Related AC** | US-004 AC-01, AC-02 |
+### Response
+- **200 OK**: `token`, `teacherId`, `name`, `expiresAt`
+- **400 Bad Request**: Thiếu trường bắt buộc hoặc định dạng sai
+- **401 Unauthorized**: Email hoặc mật khẩu không chính xác
+- **423 Locked**: Tài khoản bị khóa tạm thời
+
+### Business Rules
+- Mật khẩu phải được mã hóa khi truyền tải và lưu trữ.
+- Sau 5 lần đăng nhập sai liên tiếp, tài khoản bị khóa 15 phút.
+
+### Error Cases
+- `400`: Trường email/password rỗng hoặc sai định dạng
+- `401`: Sai credentials
+- `423`: Tài khoản bị khóa
+
+### Traceability
+- User Flow: UF-001
+- Screen Specification: SS-001
+- Business Rules: BR-001, BR-002
 
 ---
 
-### 7. [GET] Get AI Insights for Lesson
+## API-002: Get Data Source Options
 
-| Field | Nội dung |
-|---|---|
-| **API Name** | Get AI Insights for Lesson |
-| **Purpose** | Lấy giả thuyết phân tích nguyên nhân và các đề xuất hành động từ AI cho bài học cụ thể. |
-| **Endpoint** | `GET /api/v1/courses/{courseId}/lessons/{lessonId}/ai-insights` |
-| **Actor** | Teacher / Course Creator |
-| **Input** | `courseId` (string, required in path), `lessonId` (string, required in path) |
-| **Output** | `lessonId` (string), `insights` (array of objects gồm: `insightId`, `hypothesis`, `confidenceScore`), `recommendations` (array of objects gồm: `recommendationId`, `suggestionText`, `status`) |
-| **Business Rules** | - Không sinh insight nếu bài học chưa đủ độ tin cậy về số lượng dữ liệu (dưới 30 học viên).<br>- Phải trả về kèm văn bản từ chối trách nhiệm pháp lý (AI chỉ mang tính tham khảo). |
-| **Error Cases** | - `403 Forbidden` - Giáo viên không có quyền truy cập khóa học này.<br>- `404 Not Found` - Không tìm thấy bài giảng hoặc chưa tạo gợi ý AI cho bài giảng này. |
-| **Related AC** | US-005 AC-01 |
+### API Information
+- **API ID**: API-002
+- **Endpoint**: GET /api/v1/data/sources
+- **HTTP Method**: GET
+- **Purpose**: Lấy các phương thức nhập dữ liệu Udemy có sẵn cho giáo viên.
+- **Related Screens**: S-101
+- **Related User Flow Steps**: UF-002 Entry Point, Happy Path Step 1
+
+### Trigger
+- Khi người dùng mở màn hình Quản lý nguồn dữ liệu trên S-101.
+
+### Authentication
+- Authenticated User
+
+### Authorization
+- Giáo viên đã đăng nhập.
+
+### Request
+
+#### Headers
+- Authorization: Bearer token
+- Accept: application/json
+
+#### Path Parameters
+- Không có
+
+#### Query Parameters
+- Không có
+
+#### Request Body
+- Không có
+
+### Response
+- **200 OK**: `sources` gồm `id`, `name`, `type`, `description`, `enabled`
+
+### Business Rules
+- Chỉ trả về các phương thức đang được bật cho tài khoản hiện tại.
+
+### Error Cases
+- `401 Unauthorized`
+- `403 Forbidden`
+
+### Traceability
+- User Flow: UF-002
+- Screen Specification: SS-002
 
 ---
 
-### 8. [POST] Update Recommendation Status
+## API-003: Connect Udemy API
 
-| Field | Nội dung |
-|---|---|
-| **API Name** | Update Recommendation Status |
-| **Purpose** | Ghi nhận hành động của giáo viên đối với đề xuất của AI (Áp dụng hoặc Bỏ qua). |
-| **Endpoint** | `POST /api/v1/courses/{courseId}/lessons/{lessonId}/recommendations/{recommendationId}/action` |
-| **Actor** | Teacher / Course Creator |
-| **Input** | `courseId` (string, required in path), `lessonId` (string, required in path), `recommendationId` (string, required in path), `action` (string, required, enum: ["applied", "ignored"]) |
-| **Output** | `recommendationId` (string), `status` (string), `updatedAt` (datetime) |
-| **Business Rules** | - Nếu action là "ignored", hệ thống sẽ ẩn đề xuất khỏi giao diện hiển thị cho giáo viên và ghi nhận lịch sử phản hồi để tối ưu hóa các đề xuất AI trong tương lai. |
-| **Error Cases** | - `400 Bad Request` - Trường action không đúng định dạng.<br>- `404 Not Found` - Không tìm thấy đề xuất phù hợp để cập nhật. |
-| **Related AC** | US-005 AC-02 |
+### API Information
+- **API ID**: API-003
+- **Endpoint**: POST /api/v1/data/udemy-connection
+- **HTTP Method**: POST
+- **Purpose**: Thiết lập kết nối API Udemy cho phép đồng bộ dữ liệu.
+- **Related Screens**: S-102, S-104, S-105
+- **Related User Flow Steps**: UF-002 Happy Path Nhánh A, EF-001
+
+### Trigger
+- Người dùng nhập Client ID và Client Secret trên S-102 và bấm kết nối.
+
+### Authentication
+- Authenticated User
+
+### Authorization
+- Giáo viên đã xác thực.
+
+### Request
+
+#### Headers
+- Authorization: Bearer token
+- Content-Type: application/json
+- Accept: application/json
+
+#### Path Parameters
+- Không có
+
+#### Query Parameters
+- Không có
+
+#### Request Body
+| Name | Type | Required | Validation | Description |
+|---|---|---|---|---|
+| clientId | string | Yes | Không trống | Client ID từ Udemy |
+| clientSecret | string | Yes | Không trống | Client Secret / API Key |
+
+### Response
+- **200 OK**: `connectionId`, `status`, `connectedAt`
+- **400 Bad Request**: Thiếu trường hoặc format sai
+- **401 Unauthorized**: Credentials không hợp lệ
+- **429 Too Many Requests**: Rate limit hoặc timeout từ Udemy
+
+### Business Rules
+- Trước khi lưu trạng thái kết nối, hệ thống phải xác thực thông tin với Udemy.
+- Nếu kết nối không hợp lệ, trạng thái phải giữ là chưa kết nối.
+
+### Error Cases
+- `400`: Thiếu clientId/clientSecret
+- `401`: Thông tin kết nối không hợp lệ
+- `429`: Timeout hoặc rate limit
+
+### Traceability
+- User Flow: UF-002
+- Screen Specification: SS-002
+- Business Rules: BR-003
 
 ---
 
-### 9. [GET] Get At-risk Students & Message Template
+## API-004: Upload Udemy Export File
 
-| Field | Nội dung |
-|---|---|
-| **API Name** | Get At-risk Students & Template |
-| **Purpose** | Lấy danh sách học viên bỏ dở của bài giảng và mẫu tin nhắn đã tối ưu theo best practice. |
-| **Endpoint** | `GET /api/v1/courses/{courseId}/lessons/{lessonId}/at-risk-students` |
-| **Actor** | Teacher / Course Creator |
-| **Input** | `courseId` (string, required in path), `lessonId` (string, required in path) |
-| **Output** | `lessonId` (string), `defaultMessageTemplate` (string), `students` (array of objects) gồm: `studentId` (string), `maskedName` (string), `daysInactive` (int), `canSendReminder` (boolean) |
-| **Business Rules** | - Tên học viên trả về ở frontend phải được ẩn danh hóa (ví dụ: "Nguy*** A***").<br>- Mẫu tin nhắn `defaultMessageTemplate` được dựng từ AI, tích hợp best practice từ học viên hoàn thành nhanh và hỗ trợ các placeholders: `{student_name}`, `{lesson_name}`, `{best_practice_tip}`.<br>- Thuộc tính `canSendReminder` = false nếu học viên đã nhận tin nhắn trong vòng 7 ngày qua. |
-| **Error Cases** | - `403 Forbidden` - Giáo viên không có quyền truy cập khóa học này.<br>- `404 Not Found` - Không tìm thấy thông tin bài học. |
-| **Related AC** | US-006 AC-01, AC-03 |
+### API Information
+- **API ID**: API-004
+- **Endpoint**: POST /api/v1/data/upload
+- **HTTP Method**: POST
+- **Purpose**: Upload file CSV/XLSX từ Udemy và bắt đầu xử lý import.
+- **Related Screens**: S-103, S-104, S-105
+- **Related User Flow Steps**: UF-002 Happy Path Nhánh B, EF-002, EF-003, EF-004
+
+### Trigger
+- Người dùng chọn hoặc kéo thả file trên S-103 và bấm tải lên.
+
+### Authentication
+- Authenticated User
+
+### Authorization
+- Giáo viên đã đăng nhập và có quyền import dữ liệu.
+
+### Request
+
+#### Headers
+- Authorization: Bearer token
+- Content-Type: multipart/form-data
+- Accept: application/json
+
+#### Path Parameters
+- Không có
+
+#### Query Parameters
+- `source=udemy` (optional)
+
+#### Request Body
+| Name | Type | Required | Validation | Description |
+|---|---|---|---|---|
+| file | binary | Yes | CSV/XLSX, đúng cấu trúc Udemy | File export từ Udemy |
+
+### Response
+- **202 Accepted**: `importId`, `status`, `fileName`
+- **400 Bad Request**: File không hợp lệ hoặc thiếu cột cần thiết
+- **413 Payload Too Large**: File quá lớn
+
+### Business Rules
+- Chỉ chấp nhận file xuất bản chính thức từ Udemy.
+- Dữ liệu PII phải được ẩn danh hóa ngay trong quá trình import.
+- Tổng quy mô import không vượt quá 3 khóa học và 2.600 học viên trong MVP.
+
+### Error Cases
+- `400`: File sai định dạng/thiếu cột
+- `413`: File vượt giới hạn
+
+### Traceability
+- User Flow: UF-002
+- Screen Specification: SS-002
+- Business Rules: BR-003, BR-004, BR-005
 
 ---
 
-### 10. [POST] Send Student Reminder
+## API-005: Get Course List
 
-| Field | Nội dung |
-|---|---|
-| **API Name** | Send Student Reminder |
-| **Purpose** | Gửi tin nhắn/email nhắc nhở cá nhân hóa cho danh sách học viên được chọn. |
-| **Endpoint** | `POST /api/v1/courses/{courseId}/lessons/{lessonId}/send-reminder` |
-| **Actor** | Teacher / Course Creator |
-| **Input** | `courseId` (string, required in path), `lessonId` (string, required in path), `studentIds` (array of strings, required), `messageBody` (string, required) |
-| **Output** | `sentCount` (int), `failedCount` (int), `failures` (array of objects gồm: `studentId`, `reason`) |
-| **Business Rules** | - Hệ thống chặn gửi nhắc nhở nếu có bất kỳ học viên nào trong danh sách nhận được tin nhắn trong vòng 7 ngày qua.<br>- Sau khi gửi thành công, hệ thống tự động đăng ký trigger theo dõi kết quả hoạt động của học viên đó trong vòng 7 ngày tiếp theo để đánh giá hiệu quả can thiệp. |
-| **Error Cases** | - `400 Bad Request` - Danh sách học viên hoặc nội dung tin nhắn rỗng.<br>- `429 Too Many Requests` - Vi phạm tần suất gửi tin nhắn đối với học viên (dưới 7 ngày). |
-| **Related AC** | US-006 AC-01, AC-02, AC-03 |
+### API Information
+- **API ID**: API-005
+- **Endpoint**: GET /api/v1/courses
+- **HTTP Method**: GET
+- **Purpose**: Lấy danh sách khóa học thuộc quyền sở hữu của giáo viên đang đăng nhập.
+- **Related Screens**: S-201
+- **Related User Flow Steps**: UF-003 Happy Path Steps 1-2
+
+### Trigger
+- Khi người dùng mở dashboard analytics trên S-201.
+
+### Authentication
+- Authenticated User
+
+### Authorization
+- Chỉ giáo viên có quyền truy cập mới được xem.
+
+### Request
+
+#### Headers
+- Authorization: Bearer token
+- Accept: application/json
+
+#### Path Parameters
+- Không có
+
+#### Query Parameters
+- `status` (optional)
+
+#### Request Body
+- Không có
+
+### Response
+- **200 OK**: `courses` array với `courseId`, `title`, `studentCount`, `status`
+
+### Business Rules
+- Chỉ trả về các khóa học thuộc quyền sở hữu của giáo viên.
+
+### Error Cases
+- `401 Unauthorized`
+- `403 Forbidden`
+
+### Traceability
+- User Flow: UF-003
+- Screen Specification: SS-003
+
+---
+
+## API-006: Get Course Dashboard Overview
+
+### API Information
+- **API ID**: API-006
+- **Endpoint**: GET /api/v1/courses/{courseId}/dashboard
+- **HTTP Method**: GET
+- **Purpose**: Lấy các chỉ số tổng quan của một khóa học.
+- **Related Screens**: S-201
+- **Related User Flow Steps**: UF-003 Happy Path Steps 2-3
+
+### Trigger
+- Khi giáo viên chọn khóa học trên S-201.
+
+### Authentication
+- Authenticated User
+
+### Authorization
+- Giáo viên có quyền truy cập khóa học đó.
+
+### Request
+
+#### Headers
+- Authorization: Bearer token
+- Accept: application/json
+
+#### Path Parameters
+| Name | Type | Required | Validation | Description |
+|---|---|---|---|---|
+| courseId | string | Yes | UUID/string | ID khóa học |
+
+#### Query Parameters
+- Không có
+
+#### Request Body
+- Không có
+
+### Response
+- **200 OK**: `courseId`, `completionRate`, `dropOffRate`, `activeStudents`, `inactiveStudents`, `atRiskStudents`
+
+### Business Rules
+- Active: có tương tác trong 7 ngày gần nhất.
+- Inactive: không có tương tác trong 30 ngày gần nhất.
+- At-risk: không học bài mới từ 14 đến 29 ngày.
+
+### Error Cases
+- `403 Forbidden`
+- `404 Not Found`
+
+### Traceability
+- User Flow: UF-003
+- Screen Specification: SS-003
+- Business Rules: BR-006
+
+---
+
+## API-007: Get Drop-off Point Analysis
+
+### API Information
+- **API ID**: API-007
+- **Endpoint**: GET /api/v1/courses/{courseId}/drop-off-analysis
+- **HTTP Method**: GET
+- **Purpose**: Trả về phân tích phễu drop-off theo các bài học của khóa học.
+- **Related Screens**: S-202, S-203
+- **Related User Flow Steps**: UF-003 Happy Path Steps 3-4, AF-001
+
+### Trigger
+- Khi giáo viên mở tab phễu drop-off trên S-202.
+
+### Authentication
+- Authenticated User
+
+### Authorization
+- Giáo viên có quyền truy cập khóa học.
+
+### Request
+
+#### Headers
+- Authorization: Bearer token
+- Accept: application/json
+
+#### Path Parameters
+| Name | Type | Required | Validation | Description |
+|---|---|---|---|---|
+| courseId | string | Yes | string | ID khóa học |
+
+#### Query Parameters
+- `threshold` (optional, numeric)
+
+#### Request Body
+- Không có
+
+### Response
+- **200 OK**: `modules` array, mỗi module có `lessons` array với `lessonId`, `lessonTitle`, `type`, `dropOffRate`, `hasWarning`, `timelineAnalysis`
+
+### Business Rules
+- `hasWarning=true` khi drop-off >20%.
+- Phân tích chi tiết timeline chỉ có nếu ít nhất 30 học viên từng tham gia.
+
+### Error Cases
+- `403 Forbidden`
+- `404 Not Found`
+
+### Traceability
+- User Flow: UF-003
+- Screen Specification: SS-003
+- Business Rules: BR-007, BR-008
+
+---
+
+## API-008: Get Lesson Analytics Detail
+
+### API Information
+- **API ID**: API-008
+- **Endpoint**: GET /api/v1/courses/{courseId}/lessons/{lessonId}/analytics
+- **HTTP Method**: GET
+- **Purpose**: Lấy dữ liệu chi tiết cho một bài giảng được chọn.
+- **Related Screens**: S-203
+- **Related User Flow Steps**: UF-003 Happy Path Step 4, EF-002, EF-003
+
+### Trigger
+- Khi giáo viên chọn một bài học trên S-202 để xem chi tiết trên S-203.
+
+### Authentication
+- Authenticated User
+
+### Authorization
+- Giáo viên có quyền truy cập khóa học và bài học tương ứng.
+
+### Request
+
+#### Headers
+- Authorization: Bearer token
+- Accept: application/json
+
+#### Path Parameters
+| Name | Type | Required | Validation | Description |
+|---|---|---|---|---|
+| courseId | string | Yes | string | ID khóa học |
+| lessonId | string | Yes | string | ID bài học |
+
+#### Query Parameters
+- Không có
+
+#### Request Body
+- Không có
+
+### Response
+- **200 OK**: `lessonId`, `lessonTitle`, `type`, `engagementMetrics`, `timelineAnalysis`, `reliabilityMessage`
+
+### Business Rules
+- Nếu số lượng học viên dưới ngưỡng 30, API trả về trạng thái low-data thay vì timeline đầy đủ.
+- Với bài tập/text, timeline có thể không có và trả về chart thay thế.
+
+### Error Cases
+- `403 Forbidden`
+- `404 Not Found`
+
+### Traceability
+- User Flow: UF-003
+- Screen Specification: SS-003
+- Business Rules: BR-008
+
+---
+
+## API-009: Get AI Insights for Lesson
+
+### API Information
+- **API ID**: API-009
+- **Endpoint**: GET /api/v1/courses/{courseId}/lessons/{lessonId}/ai-insights
+- **HTTP Method**: GET
+- **Purpose**: Trả về giả thuyết nguyên nhân và đề xuất cải thiện từ AI cho một bài học.
+- **Related Screens**: S-204
+- **Related User Flow Steps**: UF-003 Happy Path Step 5, EF-005
+
+### Trigger
+- Khi giáo viên mở tab AI Insight trên S-204.
+
+### Authentication
+- Authenticated User
+
+### Authorization
+- Giáo viên có quyền xem khóa học.
+
+### Request
+
+#### Headers
+- Authorization: Bearer token
+- Accept: application/json
+
+#### Path Parameters
+| Name | Type | Required | Validation | Description |
+|---|---|---|---|---|
+| courseId | string | Yes | string | ID khóa học |
+| lessonId | string | Yes | string | ID bài học |
+
+#### Query Parameters
+- Không có
+
+#### Request Body
+- Không có
+
+### Response
+- **200 OK**: `lessonId`, `insights`, `recommendations`, `disclaimerText`
+
+### Business Rules
+- Không sinh insight nếu bài học chưa đủ độ tin cậy (dưới 30 học viên).
+- Phải trả về disclaimer: AI chỉ mang tính tham khảo.
+
+### Error Cases
+- `403 Forbidden`
+- `404 Not Found`
+
+### Traceability
+- User Flow: UF-003
+- Screen Specification: SS-003
+- Business Rules: BR-008, BR-009
+
+---
+
+## API-010: Update Recommendation Status
+
+### API Information
+- **API ID**: API-010
+- **Endpoint**: POST /api/v1/courses/{courseId}/lessons/{lessonId}/recommendations/{recommendationId}/action
+- **HTTP Method**: POST
+- **Purpose**: Ghi nhận phản hồi của giáo viên đối với đề xuất AI.
+- **Related Screens**: S-204
+- **Related User Flow Steps**: UF-003 Happy Path Step 6
+
+### Trigger
+- Khi giáo viên bấm “Đã áp dụng” hoặc “Bỏ qua” trên S-204.
+
+### Authentication
+- Authenticated User
+
+### Authorization
+- Giáo viên có quyền tác động vào recommendation của khóa học.
+
+### Request
+
+#### Headers
+- Authorization: Bearer token
+- Content-Type: application/json
+- Accept: application/json
+
+#### Path Parameters
+| Name | Type | Required | Validation | Description |
+|---|---|---|---|---|
+| courseId | string | Yes | string | ID khóa học |
+| lessonId | string | Yes | string | ID bài học |
+| recommendationId | string | Yes | string | ID đề xuất AI |
+
+#### Query Parameters
+- Không có
+
+#### Request Body
+| Name | Type | Required | Validation | Description |
+|---|---|---|---|---|
+| action | string | Yes | enum: applied, ignored | Hành động của giáo viên |
+
+### Response
+- **200 OK**: `recommendationId`, `status`, `updatedAt`
+- **400 Bad Request**: `action` không hợp lệ
+- **404 Not Found**: Recommendation không tồn tại
+
+### Business Rules
+- Nếu action là ignored, recommendation bị ẩn khỏi UI và ghi nhận lịch sử phản hồi.
+
+### Error Cases
+- `400`: action không đúng định dạng
+- `404`: recommendation không tồn tại
+
+### Traceability
+- User Flow: UF-003
+- Screen Specification: SS-003
+
+---
+
+## API-011: Get At-risk Students & Message Template
+
+### API Information
+- **API ID**: API-011
+- **Endpoint**: GET /api/v1/courses/{courseId}/lessons/{lessonId}/at-risk-students
+- **HTTP Method**: GET
+- **Purpose**: Trả về danh sách học viên At-risk và mẫu tin nhắc nhở tối ưu.
+- **Related Screens**: S-301, S-302
+- **Related User Flow Steps**: UF-004 Happy Path Steps 1-3, EF-001
+
+### Trigger
+- Khi giáo viên mở danh sách học viên cần can thiệp trên S-301.
+
+### Authentication
+- Authenticated User
+
+### Authorization
+- Giáo viên có quyền truy cập khóa học và bài học.
+
+### Request
+
+#### Headers
+- Authorization: Bearer token
+- Accept: application/json
+
+#### Path Parameters
+| Name | Type | Required | Validation | Description |
+|---|---|---|---|---|
+| courseId | string | Yes | string | ID khóa học |
+| lessonId | string | Yes | string | ID bài học |
+
+#### Query Parameters
+- Không có
+
+#### Request Body
+- Không có
+
+### Response
+- **200 OK**: `lessonId`, `defaultMessageTemplate`, `students` array với `studentId`, `maskedName`, `daysInactive`, `canSendReminder`
+
+### Business Rules
+- Tên học viên phải được ẩn danh hóa trước khi trả về frontend.
+- `defaultMessageTemplate` phải có placeholders `{student_name}`, `{lesson_name}`, `{best_practice_tip}`.
+- `canSendReminder=false` nếu học viên đã nhận nhắc nhở trong vòng 7 ngày.
+
+### Error Cases
+- `403 Forbidden`
+- `404 Not Found`
+
+### Traceability
+- User Flow: UF-004
+- Screen Specification: SS-004
+- Business Rules: BR-010, BR-011
+
+---
+
+## API-012: Send Student Reminder
+
+### API Information
+- **API ID**: API-012
+- **Endpoint**: POST /api/v1/courses/{courseId}/lessons/{lessonId}/send-reminder
+- **HTTP Method**: POST
+- **Purpose**: Gửi nhắc nhở cá nhân hóa tới danh sách học viên được chọn.
+- **Related Screens**: S-302, S-303, S-304
+- **Related User Flow Steps**: UF-004 Happy Path Steps 3-5, EF-001, EF-002
+
+### Trigger
+- Khi giáo viên chỉnh sửa nội dung trên S-302 và bấm gửi.
+
+### Authentication
+- Authenticated User
+
+### Authorization
+- Giáo viên có quyền gửi nhắc nhở cho khóa học đó.
+
+### Request
+
+#### Headers
+- Authorization: Bearer token
+- Content-Type: application/json
+- Accept: application/json
+
+#### Path Parameters
+| Name | Type | Required | Validation | Description |
+|---|---|---|---|---|
+| courseId | string | Yes | string | ID khóa học |
+| lessonId | string | Yes | string | ID bài học |
+
+#### Query Parameters
+- Không có
+
+#### Request Body
+| Name | Type | Required | Validation | Description |
+|---|---|---|---|---|
+| studentIds | array[string] | Yes | Không rỗng | Danh sách học viên được chọn |
+| messageBody | string | Yes | Không trống | Nội dung tin nhắn/email |
+
+### Response
+- **200 OK**: `sentCount`, `failedCount`, `failures`
+- **400 Bad Request**: Danh sách học viên hoặc nội dung rỗng
+- **429 Too Many Requests**: Vi phạm tần suất gửi trong vòng 7 ngày
+
+### Business Rules
+- Chặn gửi nếu bất kỳ học viên nào trong danh sách đã nhận nhắc nhở trong vòng 7 ngày.
+- Sau khi gửi thành công, hệ thống tự động kích hoạt theo dõi phản hồi 7 ngày.
+
+### Error Cases
+- `400`: studentIds/messageBody rỗng
+- `429`: gửi vượt tần suất cho học viên
+
+### Traceability
+- User Flow: UF-004
+- Screen Specification: SS-004
+- Business Rules: BR-010, BR-012

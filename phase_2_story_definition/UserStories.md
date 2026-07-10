@@ -1,6 +1,6 @@
 # Danh sách User Stories - Nền tảng AI Learning Analytics
 
-Tài liệu này định nghĩa các User Story chi tiết phục vụ cho việc phát triển hệ thống MVP phân tích hành vi học viên Udemy. Các câu chuyện được thiết kế theo cấu trúc nghiệp vụ chuẩn, tập trung vào hành vi và kết quả mong muốn mà không đi sâu vào giải pháp kỹ thuật cụ thể.
+Tài liệu này định nghĩa các User Story chi tiết phục vụ cho việc phát triển hệ thống MVP phân tích hành vi học viên Udemy, đặc biệt trong bối cảnh học online sang lớp học offline theo mô hình Online-to-Offline (O2O). Các câu chuyện được thiết kế theo cấu trúc nghiệp vụ chuẩn, tập trung vào hành vi và kết quả mong muốn mà không đi sâu vào giải pháp kỹ thuật cụ thể.
 
 ---
 

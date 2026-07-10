@@ -1,6 +1,6 @@
 # Tài liệu Phân tích và Chỉ mục User Flows (User Flow Index)
 
-Tài liệu này thực hiện phân tích danh sách User Stories của hệ thống **Nền tảng AI Learning Analytics** và thực hiện phân nhóm chúng thành các hành trình người dùng (User Flows / User Journeys) hợp lý theo mục tiêu cốt lõi của giảng viên (Course Creator).
+Tài liệu này thực hiện phân tích danh sách User Stories của hệ thống **Nền tảng AI Learning Analytics** và thực hiện phân nhóm chúng thành các hành trình người dùng (User Flows / User Journeys) hợp lý theo mục tiêu cốt lõi của giảng viên (Course Creator), đặc biệt trong bối cảnh chuyển đổi từ học online trên Udemy sang lớp học offline theo mô hình Online-to-Offline (O2O).
 
 ---
 

@@ -3,11 +3,12 @@
 Tài liệu này xác định ranh giới phát triển, các tính năng trong và ngoài phạm vi, cùng các ràng buộc ảnh hưởng đến phiên bản hiện tại (MVP) của sản phẩm.
 
 ## 1. Mục tiêu của phiên bản hiện tại (MVP) là gì?
-* **Mục tiêu chính:** Cung cấp cho giáo viên bán khóa học trên Udemy các insight có thể hành động (actionable insights) để cải thiện tỷ lệ hoàn thành khóa học của học viên.
+* **Mục tiêu chính:** Cung cấp cho giáo viên bán khóa học trên Udemy các insight có thể hành động (actionable insights) để cải thiện tỷ lệ hoàn thành khóa học của học viên, đặc biệt trong bối cảnh học online sang lớp học offline theo mô hình Online-to-Offline (O2O).
 * **Mục tiêu cụ thể:** 
   * Phát hiện điểm học viên thường bỏ cuộc (drop-off points).
   * Gợi ý nguyên nhân bằng AI.
   * Hỗ trợ giáo viên can thiệp (gửi nhắc nhở, gợi ý học tập) để kéo học viên quay lại.
+  * Chuyển insight từ học online thành đề xuất thực hiện cho buổi học offline, ví dụ phân bổ lý thuyết và thực hành phù hợp.
 
 ## 2. Những tính năng nào sẽ được phát triển trong MVP?
 Hệ thống gồm các tính năng chính sau:
@@ -29,8 +30,8 @@ Hệ thống gồm các tính năng chính sau:
 * Tích hợp các nền tảng dạy học trực tuyến khác ngoài Udemy.
 
 ## 4. Những nhóm người dùng nào được hỗ trợ?
-* **Nhóm người dùng chính (Direct User):** Giáo viên, nhà sáng tạo nội dung khóa học (Course Creator) trên nền tảng Udemy.
-* **Nhóm người hưởng lợi gián tiếp (Indirect User):** Học viên đăng ký học các khóa học của giáo viên trên Udemy (được nhắc nhở học tập và trải nghiệm nội dung tốt hơn).
+* **Nhóm người dùng chính (Direct User):** Giáo viên, nhà sáng tạo nội dung khóa học (Course Creator) trên nền tảng Udemy và giảng viên vận hành lớp học offline.
+* **Nhóm người hưởng lợi gián tiếp (Indirect User):** Học viên đăng ký học các khóa học của giáo viên trên Udemy và tham gia các buổi học offline sau đó (được nhắc nhở học tập và trải nghiệm nội dung tốt hơn).
 
 ## 5. Những quy trình nghiệp vụ nào được hỗ trợ?
 Hệ thống hỗ trợ luồng nghiệp vụ khép kín sau:

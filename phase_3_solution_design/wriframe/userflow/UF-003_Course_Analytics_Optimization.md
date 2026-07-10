@@ -7,9 +7,9 @@ Tài liệu này đặc tả chi tiết luồng phân tích sức khỏe khóa h
 ## 1. Flow Overview
 * **Flow ID**: UF-003
 * **Flow Name**: Course Analytics & AI Optimization (Phân tích khóa học & Tối ưu hóa bằng AI)
-* **Description**: Giảng viên xem Dashboard tổng quan khóa học, đi sâu phân tích biểu đồ phễu bài giảng để tìm ra điểm nóng học viên dừng học đột ngột (drop-off), kiểm tra timeline video bị tắt, và xem các đề xuất cải thiện nội dung từ trợ lý AI.
+* **Description**: Giảng viên xem Dashboard tổng quan khóa học, đi sâu phân tích biểu đồ phễu bài giảng để tìm ra điểm nóng học viên dừng học đột ngột (drop-off), kiểm tra timeline video bị tắt, xem các đề xuất cải thiện nội dung từ trợ lý AI, và sử dụng insight này để chuẩn bị nội dung, nhịp độ cũng như phân bổ lý thuyết/thực hành cho buổi học offline.
 * **Primary Actor**: Teacher / Course Creator (Giảng viên / Người tạo khóa học)
-* **User Goal**: Xác định chính xác bài giảng bị lỗi nội dung và áp dụng các đề xuất tối ưu hóa cụ thể của AI để cải thiện tỷ lệ hoàn thành khóa học.
+* **User Goal**: Xác định chính xác bài giảng bị lỗi nội dung, áp dụng các đề xuất tối ưu hóa cụ thể của AI để cải thiện tỷ lệ hoàn thành khóa học và chuẩn bị các điều chỉnh phù hợp cho buổi học offline.
 * **Related User Stories**: 
   * [US-003: Xem Dashboard tổng quan về khóa học](file:///c:/Users/admin/Documents/AI%20for%20vietnam/Agentic%20SDLC/phase_2_story_definition/UserStories.md#us-003-xem-dashboard-tổng-quan-về-khóa-học)
   * [US-004: Xem phân tích điểm dừng (Drop-off Point Analysis)](file:///c:/Users/admin/Documents/AI%20for%20vietnam/Agentic%20SDLC/phase_2_story_definition/UserStories.md#us-004-xem-phân-tích-điểm-dừng-drop-off-point-analysis)

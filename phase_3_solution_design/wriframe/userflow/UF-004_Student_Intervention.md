@@ -7,7 +7,7 @@ Tài liệu này đặc tả chi tiết luồng giảng viên can thiệp bằng
 ## 1. Flow Overview
 * **Flow ID**: UF-004
 * **Flow Name**: Student Intervention & Re-engagement (Kích hoạt & Can thiệp học viên bỏ dở)
-* **Description**: Giảng viên duyệt danh sách học viên bỏ dở tại một bài học cụ thể hoặc danh sách học viên At-risk/Inactive của khóa học, chọn học viên cần can thiệp, xem trước mẫu tin nhắn tự động được tối ưu hóa từ "Best Practice" của nhóm hoàn thành nhanh, chỉnh sửa và gửi nhắc nhở. Hệ thống theo dõi phản hồi trong 7 ngày sau đó.
+* **Description**: Giảng viên duyệt danh sách học viên bỏ dở tại một bài học cụ thể hoặc danh sách học viên At-risk/Inactive của khóa học, chọn học viên cần can thiệp, xem trước mẫu tin nhắn tự động được tối ưu hóa từ "Best Practice" của nhóm hoàn thành nhanh, chỉnh sửa và gửi nhắc nhở. Hệ thống theo dõi phản hồi trong 7 ngày sau đó và hỗ trợ giảng viên chuẩn bị hành động phù hợp cho buổi học offline tiếp theo.
 * **Primary Actor**: Teacher / Course Creator (Giảng viên / Người tạo khóa học)
 * **User Goal**: Gửi thông điệp khích lệ tối ưu hóa đến học viên bỏ cuộc để chuyển đổi trạng thái của họ thành "Re-engaged" (Đã quay lại học).
 * **Related User Stories**: 

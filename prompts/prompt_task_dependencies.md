@@ -14,24 +14,49 @@ The dependency graph will be used for:
 
 ---
 
+# Role
+
+You are a Senior Software Architect and Technical Project Manager.
+
+Your responsibility is to analyze the generated task breakdown files from the task_breakdown folder and infer the dependency graph required for implementation.
+
+The dependency graph will be used for:
+
+- GitHub Issue Dependencies
+- Sprint Planning
+- AI Task Assignment
+- Critical Path Analysis
+- Parallel Work Detection
+
+---
+
 # Input
 
 You are given:
 
-- task_breakdown.md
+- the task breakdown files in the folder phase_4_planning/task_breakdown
+- the task_default.md file in the same folder
 - user_stories.md
-- architecture.md (optional)
+- architectureoverview.md (optional)
 - api_spec.md (optional)
-- userflow.md (optional)
-- screenflow.md (optional)
+- userflow documents (optional)
+- screenflow and screenspec documents (optional)
 
 ---
 
 # Goal
 
-Generate
+Generate a dependency graph document named:
 
-task_dependencies.md
+phase_4_planning/task_dependencies.md
+
+The output must be based on the actual task IDs and task groups defined in the task breakdown files under phase_4_planning/task_breakdown.
+
+In addition, generate a Mermaid diagram file named:
+
+phase_4_planning/task_dependencies.mmd
+
+The Mermaid graph must reflect the dependency relationships between tasks.
 
 ---
 
@@ -48,6 +73,7 @@ Dependencies should be inferred from:
 - frontend/backend interaction
 - UI design flow
 - deployment order
+- task group ordering from task_default.md
 
 Never create circular dependencies.
 
@@ -91,102 +117,75 @@ Waiting Dependencies
 
 # Output Format
 
-# Dependency Graph
+## 1. Dependency Graph Document
 
----
+Create a Markdown file with:
 
-## TASK AUTH-001
+- a short introduction,
+- a Mermaid code block,
+- a section summarizing dependency relationships by task,
+- a section for parallel execution,
+- a section for critical path.
 
-Depends On:
+Example structure:
 
-None
+# Task Dependencies
 
-Blocks:
+## Mermaid Diagram
 
-- AUTH-002
-- AUTH-003
+```mermaid
+flowchart TD
+    FND-001 --> FND-002
+    FND-002 --> DB-001
+    DB-001 --> BE-001
+```
 
-Reason:
+## Dependency Summary
 
-Database schema must exist before implementation.
+### TASK FND-001
+- Depends On: None
+- Blocks: FND-002
+- Reason: Foundation setup must be completed first.
 
----
+### TASK BE-001
+- Depends On: DB-001
+- Blocks: FE-001
+- Reason: Backend authentication API is required before frontend integration.
 
-## TASK AUTH-002
-
-Depends On:
-
-- AUTH-001
-
-Blocks:
-
-- AUTH-004
-
-Reason:
-
-API cannot be implemented before database layer.
-
----
-
-Repeat for every task.
-
----
-
-# Parallel Execution
-
-List all tasks that can run simultaneously.
-
-Example
+## Parallel Execution
 
 Stage 1
-
-AUTH-001
-
-UI-001
-
-DOC-001
-
----
+- FND-001
+- FE-001
 
 Stage 2
+- FND-002
+- DB-001
 
-AUTH-002
+## Critical Path
 
-PAY-001
-
-PROFILE-001
+FND-001 -> FND-002 -> DB-001 -> BE-001 -> FE-001
 
 ---
 
-# Critical Path
+## 2. Mermaid Diagram File
 
-Identify the critical implementation path.
+Create a standalone Mermaid file containing only the graph definition.
 
-Example
+Example:
 
-AUTH-001
-
-↓
-
-AUTH-002
-
-↓
-
-AUTH-003
-
-↓
-
-AUTH-004
-
-↓
-
-AUTH-005
+```mermaid
+flowchart TD
+    FND-001 --> FND-002
+    FND-002 --> DB-001
+    DB-001 --> BE-001
+```
 
 ---
 
 # Validation Rules
 
-Every task must exist in task_breakdown.md
+Every task must exist in one of the task breakdown files under phase_4_planning/task_breakdown.
 
 Every dependency must reference a valid Task ID.
 
@@ -204,3 +203,5 @@ The generated dependency graph must be deterministic.
 
 Given the same inputs,
 the output should always be nearly identical.
+
+The Mermaid output must be suitable for rendering in GitHub or Mermaid-compatible viewers.

@@ -2,13 +2,14 @@
 ## 1. Domain của hệ thống
 
 **Learning Analytics / EdTech / Course Performance Optimization**
-Cụ thể: phân tích hành vi học viên Udemy để giúp giáo viên biết **học viên dừng ở đâu, vì sao dừng, và nên cải thiện gì**. 
+Cụ thể: phân tích hành vi học viên Udemy để giúp giáo viên biết **học viên dừng ở đâu, vì sao dừng, và nên cải thiện gì**, đồng thời chuyển insight này thành kế hoạch phù hợp cho lớp học offline theo mô hình Online-to-Offline (O2O).
 
 ## 2. Business Entity chính
 
 | Entity                         | Ý nghĩa                                          |
 | ------------------------------ | ------------------------------------------------ |
 | Teacher / Course Creator       | Người dùng chính của hệ thống                    |
+| Offline Instructor             | Giảng viên vận hành buổi học offline             |
 | Student                        | Học viên Udemy, người hưởng lợi gián tiếp        |
 | Course                         | Khóa học được phân tích                          |
 | Lesson / Module                | Bài học hoặc học phần nơi có thể xảy ra drop-off |
@@ -30,8 +31,8 @@ Completion rate, drop-off rate, active student, inactive student, drop-off point
 3. Hệ thống phân tích hành vi học viên.
 4. Phát hiện điểm drop-off cao.
 5. AI gợi ý nguyên nhân.
-6. Hệ thống đề xuất hành động cải thiện.
-7. Giáo viên gửi reminder/tin nhắn cho nhóm học viên phù hợp.
+6. Hệ thống đề xuất hành động cải thiện, bao gồm cách áp dụng cho lớp học offline.
+7. Giáo viên/giảng viên offline gửi reminder hoặc điều chỉnh kế hoạch buổi học cho nhóm học viên phù hợp.
 8. Hệ thống theo dõi hiệu quả sau can thiệp. 
 
 ## 5. Business Rules luôn phải tuân thủ
