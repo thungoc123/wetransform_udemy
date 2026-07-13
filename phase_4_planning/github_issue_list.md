@@ -110,30 +110,29 @@ Tài liệu này là danh sách issue gợi ý để GitHub Copilot tạo issue 
 
 ### [FND-011] Configure Logging Framework
 - Assignee: Phan Đức Duy
-- Priority: High
+- Priority: Medium
 - Estimate: 2 SP
-- Labels: priority:high, type:backend, type:infra, size:2
+- Labels: priority:medium, type:observability, type:infra, size:2
 - Depends on: FND-004
-- Suggested column: Backlog
-- Summary: Tạo logging framework và cấu hình mức log.
+- Suggested column: Done
+- Summary: Tích hợp thư viện logging có cấu trúc.
 
 ### [FND-012] Configure Request/Response Logging
 - Assignee: Phan Đức Duy
 - Priority: Medium
 - Estimate: 2 SP
-- Labels: priority:medium, type:backend, size:2
+- Labels: priority:medium, type:observability, size:2
 - Depends on: FND-011
-- Suggested column: Backlog
-- Summary: Ghi log request/response cho debug và tracing.
+- Suggested column: Done
+- Summary: Bổ sung correlation ID và access log middleware.
 
 ### [FND-013] Configure API Documentation
 - Assignee: Phan Đức Duy
-- Priority: Medium
-- Estimate: 2 SP
-- Labels: priority:medium, type:backend, type:documentation, size:2
-- Depends on: FND-010
-- Suggested column: Backlog
-- Summary: Cài đặt Swagger/OpenAPI cho API.
+- Priority: Low
+- Estimate: 1 SP
+- Labels: priority:low, type:api, size:1
+- Suggested column: Done
+- Summary: Hoàn thiện cấu hình Swagger UI / ReDoc.
 
 ### [FND-014] Configure Health Check Endpoint
 - Assignee: Phan Đức Duy
@@ -141,7 +140,7 @@ Tài liệu này là danh sách issue gợi ý để GitHub Copilot tạo issue 
 - Estimate: 1 SP
 - Labels: priority:medium, type:backend, size:1
 - Depends on: FND-004
-- Suggested column: Backlog
+- Suggested column: Done
 - Summary: Tạo endpoint /health, /ready, /live.
 
 ### [FND-015] Configure CORS Policy
@@ -194,7 +193,7 @@ Tài liệu này là danh sách issue gợi ý để GitHub Copilot tạo issue 
 - Estimate: 1 SP
 - Labels: priority:medium, type:backend, size:1
 - Depends on: FND-004
-- Suggested column: Backlog
+- Suggested column: Done
 - Summary: Thêm rate limiting cho API.
 
 ### [FND-021] Configure Cache Framework
@@ -203,7 +202,7 @@ Tài liệu này là danh sách issue gợi ý để GitHub Copilot tạo issue 
 - Estimate: 2 SP
 - Labels: priority:medium, type:backend, type:infra, size:2
 - Depends on: FND-004
-- Suggested column: Backlog
+- Suggested column: Done
 - Summary: Cấu hình cache layer cho performance.
 
 ### [FND-022] Configure File Storage Abstraction
@@ -212,7 +211,7 @@ Tài liệu này là danh sách issue gợi ý để GitHub Copilot tạo issue 
 - Estimate: 2 SP
 - Labels: priority:medium, type:backend, type:infra, size:2
 - Depends on: FND-004
-- Suggested column: Backlog
+- Suggested column: Done
 - Summary: Thiết lập abstraction cho file storage.
 
 ### [FND-023] Configure Email Infrastructure
@@ -221,7 +220,7 @@ Tài liệu này là danh sách issue gợi ý để GitHub Copilot tạo issue 
 - Estimate: 2 SP
 - Labels: priority:medium, type:backend, type:infra, size:2
 - Depends on: FND-004
-- Suggested column: Backlog
+- Suggested column: Done
 - Summary: Kết nối dịch vụ email cho reminder.
 
 ### [FND-024] Configure Background Job Framework
@@ -230,7 +229,7 @@ Tài liệu này là danh sách issue gợi ý để GitHub Copilot tạo issue 
 - Estimate: 3 SP
 - Labels: priority:high, type:backend, type:infra, size:3
 - Depends on: FND-004
-- Suggested column: Backlog
+- Suggested column: Done
 - Summary: Thiết lập background jobs và queue system.
 
 ### [FND-025] Configure Event Bus
@@ -239,7 +238,7 @@ Tài liệu này là danh sách issue gợi ý để GitHub Copilot tạo issue 
 - Estimate: 2 SP
 - Labels: priority:medium, type:backend, type:infra, size:2
 - Depends on: FND-004
-- Suggested column: Backlog
+- Suggested column: Done
 - Summary: Cài đặt event-driven cơ bản cho notification.
 
 ### [FND-026] Configure Monitoring
