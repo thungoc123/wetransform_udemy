@@ -33,5 +33,11 @@ jobs:
         pre-commit run --all-files
 
     - name: Run pytest
+      env:
+        DATABASE_URL: "postgresql+asyncpg://user:password@localhost:5432/test_db"
+        REDIS_URL: "redis://localhost:6379/0"
+        JWT_SECRET_KEY: "test-secret-key"
+        OPENAI_API_KEY: "sk-test-key"
+        AES_SECRET_KEY: "test-aes-key-test-aes-key-test!!"
       run: |
         pytest
