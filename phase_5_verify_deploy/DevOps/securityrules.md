@@ -7,7 +7,8 @@ Phân quyền thế nào?
 Data Protection
 Dữ liệu nào cần mã hóa?
 Secret Management
-Secret lưu ở đâu?
+- Local/Dev: Lưu bằng file `.env` (không bao giờ commit file này lên git, chỉ commit `.env.example`).
+- CI/CD & Production: Sử dụng Github Actions Secrets để tự động pass biến môi trường vào Docker Image khi deploy. Các secret bao gồm `DATABASE_URL`, `JWT_SECRET_KEY`, `OPENAI_API_KEY`, v.v.
 API Security
 Rate limiting?
 CORS?

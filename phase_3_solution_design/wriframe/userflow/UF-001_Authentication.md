@@ -114,25 +114,25 @@ flowchart TD
     Start([Bắt đầu]) --> Access[Truy cập trang Đăng nhập]
     Access --> Input[Nhập Email & Mật khẩu]
     Input --> Click[Nhấn nút Đăng nhập]
-    
+
     Click --> DecEmpty{Trường trống?}
     DecEmpty -- YES --> AlertEmpty[Hiển thị yêu cầu nhập đầy đủ] --> Input
     DecEmpty -- NO --> Encrypt[Mã hóa Mật khẩu & Gửi Request]
-    
+
     Encrypt --> DecNet{Kết nối mạng ổn định?}
     DecNet -- NO --> AlertNet[Thông báo lỗi kết nối Internet] --> Input
     DecNet -- YES --> CheckCreds{Thông tin chính xác?}
-    
+
     CheckCreds -- YES --> ResetFail[Reset số lần đăng nhập sai]
     ResetFail --> Redirect[Tạo Session & Chuyển hướng Dashboard]
     Redirect --> Success([Đăng nhập Thành công])
-    
+
     CheckCreds -- NO --> IncFail[Tăng số lần đăng nhập sai +1]
     IncFail --> DecLock{Đã sai >= 5 lần liên tiếp?}
     DecLock -- YES --> LockAccount[Khóa tài khoản 15 phút]
     LockAccount --> AlertLock[Hiển thị thông báo tài khoản bị khóa]
     AlertLock --> Failure([Đăng nhập Thất bại])
-    
+
     DecLock -- NO --> AlertIncorrect[Hiển thị lỗi 'Email/Mật khẩu không chính xác']
     AlertIncorrect --> Input
 ```

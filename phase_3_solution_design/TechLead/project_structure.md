@@ -274,11 +274,11 @@ def create_analyst_agent():
     graph.add_node("reason", reason_why)          # LLM suy luận nguyên nhân
     graph.add_node("recommend", generate_recs)    # LLM đề xuất hành động
     graph.add_node("review", human_review)        # Giáo viên approve/reject
-    
+
     graph.add_edge("analyze", "reason")
     graph.add_edge("reason", "recommend")
     graph.add_edge("recommend", "review")
-    
+
     return graph.compile()
 ```
 

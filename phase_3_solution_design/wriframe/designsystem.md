@@ -130,11 +130,11 @@ To enhance the "data-driven" feel, **JetBrains Mono** is introduced selectively 
 - **Hierarchy:** Maintain a clear distinction between "Reading" (Body) and "Scanning" (Data/Labels).
 
 ## Layout & Spacing
-The layout follows a **12-column fluid grid** for desktop, transitioning to a single-column stack for mobile. 
+The layout follows a **12-column fluid grid** for desktop, transitioning to a single-column stack for mobile.
 
 - **The Dashboard Grid:** A fixed sidebar (240px) provides persistent navigation, while the main content area uses fluid percentage-based columns.
-- **Rhythm:** An 8px linear scale (incremented by 4px for tight components) governs all padding and margins. 
-- **Grouping:** Related data cards should be grouped with a 32px gap, while internal card elements use 16px or 20px padding to maintain a "breathable" feel. 
+- **Rhythm:** An 8px linear scale (incremented by 4px for tight components) governs all padding and margins.
+- **Grouping:** Related data cards should be grouped with a 32px gap, while internal card elements use 16px or 20px padding to maintain a "breathable" feel.
 - **Mobile:** Margins reduce to 16px, and all multi-column data cards reflow vertically to ensure charts remain legible.
 
 ## Elevation & Depth
@@ -146,7 +146,7 @@ Depth is used functionally to indicate interactivity and information hierarchy r
 - **Overlays:** Modals and dropdowns use a more pronounced shadow to clearly separate them from the dashboard background, accompanied by a light background blur (8px) for the backdrop.
 
 ## Shapes
-The shape language is **Rounded (Level 2)**. 
+The shape language is **Rounded (Level 2)**.
 
 - **Cards & Containers:** Use a 12px (rounded-lg) radius to soften the high-density data and make the interface feel more modern and accessible.
 - **Buttons & Inputs:** Use an 8px radius to maintain a professional, sharp appearance that suggests precision.

@@ -20,4 +20,3 @@ Biết học viên dừng ở đâu, vì sao dừng, và giáo viên nên làm g
 
 5. Hướng mở rộng là gì?
 Nội dung phân tích sẽ mở rộng sang một nhóm học viên học online trên Udemy, sau đó tiếp tục học offline với giảng viên theo mô hình "Online-to-Offline" (O2O). Nền tảng sẽ cung cấp insight về tình hình học tập của nhóm này cho giảng viên, từ đó giúp họ đưa ra phân bổ lý thuyết và thực hành phù hợp tại lớp học offline.
-

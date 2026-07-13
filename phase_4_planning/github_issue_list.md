@@ -33,7 +33,7 @@ Tài liệu này là danh sách issue gợi ý để GitHub Copilot tạo issue 
 - Estimate: 2 SP
 - Labels: priority:high, type:backend, size:2
 - Depends on: FND-001
-- Suggested column: Backlog
+- Suggested column: Done
 - Summary: Tạo cấu trúc thư mục và module chuẩn theo project structure.
 
 ### [FND-003] Configure Environment Management
@@ -42,7 +42,7 @@ Tài liệu này là danh sách issue gợi ý để GitHub Copilot tạo issue 
 - Estimate: 2 SP
 - Labels: priority:high, type:backend, type:infra, size:2
 - Depends on: FND-001
-- Suggested column: Backlog
+- Suggested column: Done
 - Summary: Thiết lập env config, biến môi trường và config loader.
 
 ### [FND-004] Configure Dependency Injection
@@ -51,7 +51,7 @@ Tài liệu này là danh sách issue gợi ý để GitHub Copilot tạo issue 
 - Estimate: 3 SP
 - Labels: priority:high, type:backend, size:3
 - Depends on: FND-002
-- Suggested column: Backlog
+- Suggested column: Done
 - Summary: Cài đặt DI/IoC container và đăng ký service core.
 
 ### [FND-005] Configure Database Connection
@@ -59,8 +59,8 @@ Tài liệu này là danh sách issue gợi ý để GitHub Copilot tạo issue 
 - Priority: High
 - Estimate: 3 SP
 - Labels: priority:high, type:database, type:backend, size:3
-- Depends on: FND-004
-- Suggested column: Backlog
+- Depends on: FND-003, FND-004
+- Suggested column: Done
 - Summary: Kết nối database và thiết lập ORM/connection pool.
 
 ### [FND-006] Configure Migration Framework
@@ -69,7 +69,7 @@ Tài liệu này là danh sách issue gợi ý để GitHub Copilot tạo issue 
 - Estimate: 2 SP
 - Labels: priority:high, type:database, size:2
 - Depends on: FND-005
-- Suggested column: Backlog
+- Suggested column: Done
 - Summary: Thiết lập migration framework cho schema management.
 
 ### [FND-007] Configure Seeder Framework
@@ -78,7 +78,7 @@ Tài liệu này là danh sách issue gợi ý để GitHub Copilot tạo issue 
 - Estimate: 2 SP
 - Labels: priority:medium, type:database, size:2
 - Depends on: FND-006
-- Suggested column: Backlog
+- Suggested column: Done
 - Summary: Cấu hình seed data cho môi trường dev và demo.
 
 ### [FND-008] Configure Global Exception Handling
@@ -87,7 +87,7 @@ Tài liệu này là danh sách issue gợi ý để GitHub Copilot tạo issue 
 - Estimate: 2 SP
 - Labels: priority:high, type:backend, size:2
 - Depends on: FND-004
-- Suggested column: Backlog
+- Suggested column: Done
 - Summary: Thiết lập global exception handling thống nhất.
 
 ### [FND-009] Configure Global Validation Framework
@@ -96,7 +96,7 @@ Tài liệu này là danh sách issue gợi ý để GitHub Copilot tạo issue 
 - Estimate: 2 SP
 - Labels: priority:high, type:backend, size:2
 - Depends on: FND-004
-- Suggested column: Backlog
+- Suggested column: Done
 - Summary: Thêm validation pipeline cho DTO và request payload.
 
 ### [FND-010] Configure Unified API Response
@@ -105,35 +105,34 @@ Tài liệu này là danh sách issue gợi ý để GitHub Copilot tạo issue 
 - Estimate: 2 SP
 - Labels: priority:high, type:backend, type:api, size:2
 - Depends on: FND-008
-- Suggested column: Backlog
+- Suggested column: Done
 - Summary: Chuẩn hóa format response cho toàn hệ thống.
 
 ### [FND-011] Configure Logging Framework
 - Assignee: Phan Đức Duy
-- Priority: High
+- Priority: Medium
 - Estimate: 2 SP
-- Labels: priority:high, type:backend, type:infra, size:2
+- Labels: priority:medium, type:observability, type:infra, size:2
 - Depends on: FND-004
-- Suggested column: Backlog
-- Summary: Tạo logging framework và cấu hình mức log.
+- Suggested column: Done
+- Summary: Tích hợp thư viện logging có cấu trúc.
 
 ### [FND-012] Configure Request/Response Logging
 - Assignee: Phan Đức Duy
 - Priority: Medium
 - Estimate: 2 SP
-- Labels: priority:medium, type:backend, size:2
+- Labels: priority:medium, type:observability, size:2
 - Depends on: FND-011
-- Suggested column: Backlog
-- Summary: Ghi log request/response cho debug và tracing.
+- Suggested column: Done
+- Summary: Bổ sung correlation ID và access log middleware.
 
 ### [FND-013] Configure API Documentation
 - Assignee: Phan Đức Duy
-- Priority: Medium
-- Estimate: 2 SP
-- Labels: priority:medium, type:backend, type:documentation, size:2
-- Depends on: FND-010
-- Suggested column: Backlog
-- Summary: Cài đặt Swagger/OpenAPI cho API.
+- Priority: Low
+- Estimate: 1 SP
+- Labels: priority:low, type:api, size:1
+- Suggested column: Done
+- Summary: Hoàn thiện cấu hình Swagger UI / ReDoc.
 
 ### [FND-014] Configure Health Check Endpoint
 - Assignee: Phan Đức Duy
@@ -141,53 +140,52 @@ Tài liệu này là danh sách issue gợi ý để GitHub Copilot tạo issue 
 - Estimate: 1 SP
 - Labels: priority:medium, type:backend, size:1
 - Depends on: FND-004
-- Suggested column: Backlog
+- Suggested column: Done
 - Summary: Tạo endpoint /health, /ready, /live.
 
 ### [FND-015] Configure CORS Policy
 - Assignee: Phan Đức Duy
 - Priority: Medium
 - Estimate: 1 SP
-- Labels: priority:medium, type:backend, size:1
+- Labels: priority:medium, type:security, size:1
 - Depends on: FND-004
-- Suggested column: Backlog
-- Summary: Cấu hình CORS cho frontend và external clients.
+- Suggested column: Done
+- Summary: Cấu hình CORS an toàn cho API.
 
 ### [FND-016] Configure Security Headers
 - Assignee: Phan Đức Duy
-- Priority: High
+- Priority: Medium
 - Estimate: 1 SP
-- Labels: priority:high, type:backend, size:1
+- Labels: priority:medium, type:security, size:1
 - Depends on: FND-004
-- Suggested column: Backlog
-- Summary: Thiết lập security headers cho ứng dụng.
+- Suggested column: Done
+- Summary: Thêm các middleware bảo mật cơ bản (Helmet tương đương).
 
 ### [FND-017] Configure Authentication Framework
 - Assignee: Phan Đức Duy
 - Priority: High
 - Estimate: 3 SP
-- Labels: priority:high, type:backend, type:infra, size:3
-- Depends on: FND-004
-- Suggested column: Backlog
-- Summary: Cấu hình JWT/OAuth framework cho xác thực.
+- Labels: priority:high, type:security, type:api, size:3
+- Depends on: FND-006
+- Suggested column: Done
+- Summary: Thiết lập JWT auth cơ bản cho nội bộ.
 
 ### [FND-018] Configure Authorization Framework
 - Assignee: Phan Đức Duy
-- Priority: High
+- Priority: Medium
 - Estimate: 2 SP
-- Labels: priority:high, type:backend, size:2
+- Labels: priority:medium, type:security, type:api, size:2
 - Depends on: FND-017
-- Suggested column: Backlog
-- Summary: Cài đặt RBAC/ABAC và phân quyền cơ bản.
+- Suggested column: Done
+- Summary: Xây dựng RBAC decorator/middleware đơn giản.
 
-### [FND-019] Configure Password Hashing Service
+### [FND-019] Configure Password Hashing
 - Assignee: Phan Đức Duy
 - Priority: High
 - Estimate: 1 SP
-- Labels: priority:high, type:backend, size:1
-- Depends on: FND-017
-- Suggested column: Backlog
-- Summary: Thiết lập hashing cho password.
+- Labels: priority:high, type:security, size:1
+- Suggested column: Done
+- Summary: Cấu hình thư viện mã hóa mật khẩu.
 
 ### [FND-020] Configure Rate Limiting
 - Assignee: Phan Đức Duy
@@ -195,7 +193,7 @@ Tài liệu này là danh sách issue gợi ý để GitHub Copilot tạo issue 
 - Estimate: 1 SP
 - Labels: priority:medium, type:backend, size:1
 - Depends on: FND-004
-- Suggested column: Backlog
+- Suggested column: Done
 - Summary: Thêm rate limiting cho API.
 
 ### [FND-021] Configure Cache Framework
@@ -204,7 +202,7 @@ Tài liệu này là danh sách issue gợi ý để GitHub Copilot tạo issue 
 - Estimate: 2 SP
 - Labels: priority:medium, type:backend, type:infra, size:2
 - Depends on: FND-004
-- Suggested column: Backlog
+- Suggested column: Done
 - Summary: Cấu hình cache layer cho performance.
 
 ### [FND-022] Configure File Storage Abstraction
@@ -213,7 +211,7 @@ Tài liệu này là danh sách issue gợi ý để GitHub Copilot tạo issue 
 - Estimate: 2 SP
 - Labels: priority:medium, type:backend, type:infra, size:2
 - Depends on: FND-004
-- Suggested column: Backlog
+- Suggested column: Done
 - Summary: Thiết lập abstraction cho file storage.
 
 ### [FND-023] Configure Email Infrastructure
@@ -222,7 +220,7 @@ Tài liệu này là danh sách issue gợi ý để GitHub Copilot tạo issue 
 - Estimate: 2 SP
 - Labels: priority:medium, type:backend, type:infra, size:2
 - Depends on: FND-004
-- Suggested column: Backlog
+- Suggested column: Done
 - Summary: Kết nối dịch vụ email cho reminder.
 
 ### [FND-024] Configure Background Job Framework
@@ -231,7 +229,7 @@ Tài liệu này là danh sách issue gợi ý để GitHub Copilot tạo issue 
 - Estimate: 3 SP
 - Labels: priority:high, type:backend, type:infra, size:3
 - Depends on: FND-004
-- Suggested column: Backlog
+- Suggested column: Done
 - Summary: Thiết lập background jobs và queue system.
 
 ### [FND-025] Configure Event Bus
@@ -240,7 +238,7 @@ Tài liệu này là danh sách issue gợi ý để GitHub Copilot tạo issue 
 - Estimate: 2 SP
 - Labels: priority:medium, type:backend, type:infra, size:2
 - Depends on: FND-004
-- Suggested column: Backlog
+- Suggested column: Done
 - Summary: Cài đặt event-driven cơ bản cho notification.
 
 ### [FND-026] Configure Monitoring
@@ -249,7 +247,7 @@ Tài liệu này là danh sách issue gợi ý để GitHub Copilot tạo issue 
 - Estimate: 2 SP
 - Labels: priority:medium, type:devops, size:2
 - Depends on: FND-011
-- Suggested column: Backlog
+- Suggested column: Done
 - Summary: Bật metrics và monitoring cho hệ thống.
 
 ### [FND-027] Configure Distributed Tracing
@@ -258,7 +256,7 @@ Tài liệu này là danh sách issue gợi ý để GitHub Copilot tạo issue 
 - Estimate: 2 SP
 - Labels: priority:medium, type:devops, size:2
 - Depends on: FND-011
-- Suggested column: Backlog
+- Suggested column: Done
 - Summary: Cấu hình tracing cho request flow.
 
 ### [FND-028] Configure Audit Logging
@@ -267,7 +265,7 @@ Tài liệu này là danh sách issue gợi ý để GitHub Copilot tạo issue 
 - Estimate: 2 SP
 - Labels: priority:medium, type:backend, type:infra, size:2
 - Depends on: FND-011
-- Suggested column: Backlog
+- Suggested column: Done
 - Summary: Thiết lập audit trail cho action logging.
 
 ### [FND-029] Configure Error Code Registry
@@ -276,7 +274,7 @@ Tài liệu này là danh sách issue gợi ý để GitHub Copilot tạo issue 
 - Estimate: 1 SP
 - Labels: priority:medium, type:backend, size:1
 - Depends on: FND-008
-- Suggested column: Backlog
+- Suggested column: Done
 - Summary: Chuẩn hóa error code cho API.
 
 ### [FND-030] Configure Localization Framework
@@ -285,7 +283,7 @@ Tài liệu này là danh sách issue gợi ý để GitHub Copilot tạo issue 
 - Estimate: 1 SP
 - Labels: priority:low, type:backend, size:1
 - Depends on: FND-004
-- Suggested column: Backlog
+- Suggested column: Done
 - Summary: Thiết lập framework đa ngôn ngữ nếu cần.
 
 ### [FND-031] Configure Unit Test Framework
@@ -294,7 +292,7 @@ Tài liệu này là danh sách issue gợi ý để GitHub Copilot tạo issue 
 - Estimate: 2 SP
 - Labels: priority:high, type:testing, size:2
 - Depends on: FND-001
-- Suggested column: Backlog
+- Suggested column: Done
 - Summary: Cài đặt unit test framework cho backend.
 
 ### [FND-032] Configure Integration Test Framework
@@ -303,7 +301,7 @@ Tài liệu này là danh sách issue gợi ý để GitHub Copilot tạo issue 
 - Estimate: 2 SP
 - Labels: priority:high, type:testing, size:2
 - Depends on: FND-005
-- Suggested column: Backlog
+- Suggested column: Done
 - Summary: Cài đặt integration test framework và test containers.
 
 ### [FND-033] Configure Code Quality Tools
@@ -312,7 +310,7 @@ Tài liệu này là danh sách issue gợi ý để GitHub Copilot tạo issue 
 - Estimate: 2 SP
 - Labels: priority:high, type:backend, type:devops, size:2
 - Depends on: FND-001
-- Suggested column: Backlog
+- Suggested column: Done
 - Summary: Thiết lập linting, formatting và static analysis.
 
 ### [FND-034] Configure Git Hooks
@@ -321,7 +319,7 @@ Tài liệu này là danh sách issue gợi ý để GitHub Copilot tạo issue 
 - Estimate: 1 SP
 - Labels: priority:medium, type:devops, size:1
 - Depends on: FND-033
-- Suggested column: Backlog
+- Suggested column: Done
 - Summary: Cài đặt pre-commit hooks và auto lint.
 
 ### [FND-035] Configure Docker Environment
@@ -330,7 +328,7 @@ Tài liệu này là danh sách issue gợi ý để GitHub Copilot tạo issue 
 - Estimate: 2 SP
 - Labels: priority:high, type:devops, size:2
 - Depends on: FND-001
-- Suggested column: Backlog
+- Suggested column: Done
 - Summary: Tạo Dockerfile và docker-compose cho app.
 
 ### [FND-036] Configure CI Pipeline
@@ -339,7 +337,7 @@ Tài liệu này là danh sách issue gợi ý để GitHub Copilot tạo issue 
 - Estimate: 3 SP
 - Labels: priority:high, type:devops, size:3
 - Depends on: FND-031, FND-033
-- Suggested column: Backlog
+- Suggested column: Done
 - Summary: Thiết lập pipeline build/test/lint tự động.
 
 ### [FND-037] Configure CD Pipeline
@@ -348,7 +346,7 @@ Tài liệu này là danh sách issue gợi ý để GitHub Copilot tạo issue 
 - Estimate: 2 SP
 - Labels: priority:high, type:devops, size:2
 - Depends on: FND-036
-- Suggested column: Backlog
+- Suggested column: Done
 - Summary: Chuẩn bị deployment pipeline cho staging/production.
 
 ### [FND-038] Configure Secrets Management
@@ -357,7 +355,7 @@ Tài liệu này là danh sách issue gợi ý để GitHub Copilot tạo issue 
 - Estimate: 2 SP
 - Labels: priority:high, type:devops, size:2
 - Depends on: FND-003
-- Suggested column: Backlog
+- Suggested column: Done
 - Summary: Quản lý secret và environment credentials.
 
 ### [FND-039] Configure Backup Strategy
@@ -366,7 +364,7 @@ Tài liệu này là danh sách issue gợi ý để GitHub Copilot tạo issue 
 - Estimate: 2 SP
 - Labels: priority:medium, type:devops, size:2
 - Depends on: FND-005
-- Suggested column: Backlog
+- Suggested column: Done
 - Summary: Thiết lập strategy backup và restore database.
 
 ### [FND-040] Configure Project Documentation
