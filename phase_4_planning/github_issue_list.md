@@ -69,7 +69,7 @@ Tài liệu này là danh sách issue gợi ý để GitHub Copilot tạo issue 
 - Estimate: 2 SP
 - Labels: priority:high, type:database, size:2
 - Depends on: FND-005
-- Suggested column: Backlog
+- Suggested column: Done
 - Summary: Thiết lập migration framework cho schema management.
 
 ### [FND-007] Configure Seeder Framework
@@ -78,7 +78,7 @@ Tài liệu này là danh sách issue gợi ý để GitHub Copilot tạo issue 
 - Estimate: 2 SP
 - Labels: priority:medium, type:database, size:2
 - Depends on: FND-006
-- Suggested column: Backlog
+- Suggested column: Done
 - Summary: Cấu hình seed data cho môi trường dev và demo.
 
 ### [FND-008] Configure Global Exception Handling

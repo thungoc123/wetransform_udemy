@@ -24,30 +24,47 @@ Mở terminal và trỏ vào thư mục backend:
 cd source/backend
 ```
 
-**Bước 1: Tạo môi trường ảo (Virtual Environment)**
+**Bước 1: Khởi động Database & Cache**
+Bật Docker Compose để chạy PostgreSQL và Redis cục bộ:
+```bash
+docker-compose up -d
+```
+
+**Bước 2: Tạo môi trường ảo (Virtual Environment)**
 ```bash
 python3 -m venv .venv
 source .venv/bin/activate  # Trên macOS/Linux
 # Hoặc: .venv\Scripts\activate (Trên Windows)
 ```
 
-**Bước 2: Cài đặt thư viện**
+**Bước 3: Cài đặt thư viện**
 ```bash
 pip install -r requirements.txt
 ```
 
-**Bước 3: Cấu hình biến môi trường**
+**Bước 4: Cấu hình biến môi trường**
 Copy file mẫu để tạo file `.env`:
 ```bash
 cp .env.example .env
 ```
 *(Hãy điền các thông số kết nối Database, OpenAI API Key, JWT Secret... vào file `.env`)*
 
-**Bước 4: Khởi chạy Server Backend**
+**Bước 5: Khởi tạo Database (Migration) & Dữ liệu mẫu (Seeder)**
+Tạo các bảng trong Database:
+```bash
+alembic upgrade head
+```
+Nạp tài khoản admin mặc định:
+```bash
+python -m app.seeder
+```
+
+**Bước 6: Khởi chạy Server Backend**
 ```bash
 uvicorn app.main:app --reload
 ```
 API server sẽ chạy tại: `http://localhost:8000`
+Health Check: `http://localhost:8000/health`
 Swagger UI Documentation: `http://localhost:8000/docs`
 
 ---
