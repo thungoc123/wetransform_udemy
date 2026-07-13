@@ -148,46 +148,45 @@ Tài liệu này là danh sách issue gợi ý để GitHub Copilot tạo issue 
 - Assignee: Phan Đức Duy
 - Priority: Medium
 - Estimate: 1 SP
-- Labels: priority:medium, type:backend, size:1
+- Labels: priority:medium, type:security, size:1
 - Depends on: FND-004
-- Suggested column: Backlog
-- Summary: Cấu hình CORS cho frontend và external clients.
+- Suggested column: Done
+- Summary: Cấu hình CORS an toàn cho API.
 
 ### [FND-016] Configure Security Headers
 - Assignee: Phan Đức Duy
-- Priority: High
+- Priority: Medium
 - Estimate: 1 SP
-- Labels: priority:high, type:backend, size:1
+- Labels: priority:medium, type:security, size:1
 - Depends on: FND-004
-- Suggested column: Backlog
-- Summary: Thiết lập security headers cho ứng dụng.
+- Suggested column: Done
+- Summary: Thêm các middleware bảo mật cơ bản (Helmet tương đương).
 
 ### [FND-017] Configure Authentication Framework
 - Assignee: Phan Đức Duy
 - Priority: High
 - Estimate: 3 SP
-- Labels: priority:high, type:backend, type:infra, size:3
-- Depends on: FND-004
-- Suggested column: Backlog
-- Summary: Cấu hình JWT/OAuth framework cho xác thực.
+- Labels: priority:high, type:security, type:api, size:3
+- Depends on: FND-006
+- Suggested column: Done
+- Summary: Thiết lập JWT auth cơ bản cho nội bộ.
 
 ### [FND-018] Configure Authorization Framework
 - Assignee: Phan Đức Duy
-- Priority: High
+- Priority: Medium
 - Estimate: 2 SP
-- Labels: priority:high, type:backend, size:2
+- Labels: priority:medium, type:security, type:api, size:2
 - Depends on: FND-017
-- Suggested column: Backlog
-- Summary: Cài đặt RBAC/ABAC và phân quyền cơ bản.
+- Suggested column: Done
+- Summary: Xây dựng RBAC decorator/middleware đơn giản.
 
-### [FND-019] Configure Password Hashing Service
+### [FND-019] Configure Password Hashing
 - Assignee: Phan Đức Duy
 - Priority: High
 - Estimate: 1 SP
-- Labels: priority:high, type:backend, size:1
-- Depends on: FND-017
-- Suggested column: Backlog
-- Summary: Thiết lập hashing cho password.
+- Labels: priority:high, type:security, size:1
+- Suggested column: Done
+- Summary: Cấu hình thư viện mã hóa mật khẩu.
 
 ### [FND-020] Configure Rate Limiting
 - Assignee: Phan Đức Duy
