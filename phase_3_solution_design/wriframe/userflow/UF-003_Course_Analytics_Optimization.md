@@ -10,7 +10,7 @@ Tài liệu này đặc tả chi tiết luồng phân tích sức khỏe khóa h
 * **Description**: Giảng viên xem Dashboard tổng quan khóa học, đi sâu phân tích biểu đồ phễu bài giảng để tìm ra điểm nóng học viên dừng học đột ngột (drop-off), kiểm tra timeline video bị tắt, xem các đề xuất cải thiện nội dung từ trợ lý AI, và sử dụng insight này để chuẩn bị nội dung, nhịp độ cũng như phân bổ lý thuyết/thực hành cho buổi học offline.
 * **Primary Actor**: Teacher / Course Creator (Giảng viên / Người tạo khóa học)
 * **User Goal**: Xác định chính xác bài giảng bị lỗi nội dung, áp dụng các đề xuất tối ưu hóa cụ thể của AI để cải thiện tỷ lệ hoàn thành khóa học và chuẩn bị các điều chỉnh phù hợp cho buổi học offline.
-* **Related User Stories**: 
+* **Related User Stories**:
   * [US-003: Xem Dashboard tổng quan về khóa học](file:///c:/Users/admin/Documents/AI%20for%20vietnam/Agentic%20SDLC/phase_2_story_definition/UserStories.md#us-003-xem-dashboard-tổng-quan-về-khóa-học)
   * [US-004: Xem phân tích điểm dừng (Drop-off Point Analysis)](file:///c:/Users/admin/Documents/AI%20for%20vietnam/Agentic%20SDLC/phase_2_story_definition/UserStories.md#us-004-xem-phân-tích-điểm-dừng-drop-off-point-analysis)
   * [US-005: Xem gợi ý nguyên nhân từ AI và đề xuất cải thiện](file:///c:/Users/admin/Documents/AI%20for%20vietnam/Agentic%20SDLC/phase_2_story_definition/UserStories.md#us-005-xem-gợi-ý-nguyên-nhân-từ-ai-và-đề-xuất-cải-thiện)
@@ -140,43 +140,43 @@ Tài liệu này đặc tả chi tiết luồng phân tích sức khỏe khóa h
 ```mermaid
 flowchart TD
     Start([Bắt đầu]) --> CheckData{D-001: Có dữ liệu khóa học?}
-    
+
     CheckData -- "NO (EF-001)" --> EmptyDash[Hiển thị Giao diện trống]
     EmptyDash --> ClickImport[Nhấn CTA Kết nối dữ liệu] --> Redirect[Chuyển sang UF-002]
-    
+
     CheckData -- YES --> RenderOverview[Tải Dashboard tổng quan khóa học]
     RenderOverview --> ViewStats[Xem Completion, Drop-off, Active, Inactive, At-risk]
-    
+
     ViewStats --> TabDropOff[Chuyển sang Tab Phân tích điểm dừng]
     TabDropOff --> GetFunnel[Hệ thống hiển thị Biểu đồ hình phễu]
-    
+
     GetFunnel --> CheckDropOff{D-002: Drop-off > Ngưỡng 20%?}
     CheckDropOff -- YES --> HighlightRed["Tô đỏ bài học và Đưa vào Điểm nóng"]
     CheckDropOff -- NO --> StyledNormal[Hiển thị bài giảng bình thường]
-    
+
     HighlightRed --> ClickLesson[Nhấp chọn xem chi tiết Bài học]
     StyledNormal --> ClickLesson
-    
+
     ClickLesson --> CheckStatsSig{D-003: Số học viên >= 30?}
-    
+
     CheckStatsSig -- "NO (EF-002)" --> ShowLowStats[Hiển thị cảnh báo: Thiếu dữ liệu thống kê]
-    
+
     CheckStatsSig -- YES --> CheckVideo{D-004: Bài học là Video?}
-    
+
     CheckVideo -- "NO (EF-003)" --> RenderBarChart[Hiển thị Biểu đồ cột hoàn thành bài tập/file]
     CheckVideo -- YES --> RenderTimeline[Hiển thị Biểu đồ dòng thời gian giữ chân học viên]
-    
+
     RenderTimeline --> OpenAI[Mở khu vực Phân tích AI]
     RenderBarChart --> OpenAI
-    
+
     OpenAI --> ShowDisclaimer["Hiển thị Tuyên bố miễn trừ trách nhiệm AI (BR-009)"]
     ShowDisclaimer --> RenderInsights["Hiển thị Giả thuyết nguyên nhân và Đề xuất giải pháp"]
-    
+
     RenderInsights --> ClickOption{Giáo viên chọn option?}
-    
+
     ClickOption -- "Bấm Đã áp dụng" --> MarkApplied["Ghi nhận áp dụng và Cập nhật mô hình AI"]
     ClickOption -- "Bấm Bỏ qua" --> HideOption["Ghi nhận bỏ qua, ẩn gợi ý và Điều chỉnh AI"]
-    
+
     MarkApplied --> Success(["Hoàn thành Phân tích và Tối ưu hóa"])
     HideOption --> Success
 ```

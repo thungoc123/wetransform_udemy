@@ -33,7 +33,7 @@ Completion rate, drop-off rate, active student, inactive student, drop-off point
 5. AI gợi ý nguyên nhân.
 6. Hệ thống đề xuất hành động cải thiện, bao gồm cách áp dụng cho lớp học offline.
 7. Giáo viên/giảng viên offline gửi reminder hoặc điều chỉnh kế hoạch buổi học cho nhóm học viên phù hợp.
-8. Hệ thống theo dõi hiệu quả sau can thiệp. 
+8. Hệ thống theo dõi hiệu quả sau can thiệp.
 
 ## 5. Business Rules luôn phải tuân thủ
 
@@ -71,7 +71,7 @@ Completion rate, drop-off rate, active student, inactive student, drop-off point
 
 ## 8. Ràng buộc hoặc giới hạn nghiệp vụ
 
-MVP chỉ tập trung vào Udemy, dữ liệu kiểm thử ban đầu gồm **3 khóa học mẫu và khoảng 2.600 học viên hoạt động**, chưa hỗ trợ mobile app, marketplace riêng, recommendation engine phức tạp, A/B testing toàn diện hoặc tích hợp nền tảng ngoài Udemy. 
+MVP chỉ tập trung vào Udemy, dữ liệu kiểm thử ban đầu gồm **3 khóa học mẫu và khoảng 2.600 học viên hoạt động**, chưa hỗ trợ mobile app, marketplace riêng, recommendation engine phức tạp, A/B testing toàn diện hoặc tích hợp nền tảng ngoài Udemy.
 
 ## 9. Sự kiện nghiệp vụ quan trọng
 

@@ -4,7 +4,7 @@ Tài liệu này xác định ranh giới phát triển, các tính năng trong 
 
 ## 1. Mục tiêu của phiên bản hiện tại (MVP) là gì?
 * **Mục tiêu chính:** Cung cấp cho giáo viên bán khóa học trên Udemy các insight có thể hành động (actionable insights) để cải thiện tỷ lệ hoàn thành khóa học của học viên, đặc biệt trong bối cảnh học online sang lớp học offline theo mô hình Online-to-Offline (O2O).
-* **Mục tiêu cụ thể:** 
+* **Mục tiêu cụ thể:**
   * Phát hiện điểm học viên thường bỏ cuộc (drop-off points).
   * Gợi ý nguyên nhân bằng AI.
   * Hỗ trợ giáo viên can thiệp (gửi nhắc nhở, gợi ý học tập) để kéo học viên quay lại.
@@ -17,7 +17,7 @@ Hệ thống gồm các tính năng chính sau:
 * **Phân tích điểm dừng:** Xác định cụ thể bài học (lesson/module) nào học viên có xu hướng dừng học cao nhất.
 * **Gợi ý AI (AI Insight):** Tự động phân tích hành vi và đưa ra các giả thuyết/nguyên nhân tiềm ẩn (bài quá dài, bài tập khó, kiến thức cũ...).
 * **Đề xuất hành động:** Đưa ra giải pháp cụ thể cho giáo viên (ví dụ: chia nhỏ video, thêm câu hỏi trắc nghiệm, cập nhật tài liệu).
-* **Trigger tương tác học viên:** Hỗ trợ gửi tin nhắn/email nhắc nhở quay lại học cho những học viên có dấu hiệu bỏ dở và soạn tin nhắn cũng dựa vào insight từ những học viên hoàn thành nhanh, để nhân rộng best practice. 
+* **Trigger tương tác học viên:** Hỗ trợ gửi tin nhắn/email nhắc nhở quay lại học cho những học viên có dấu hiệu bỏ dở và soạn tin nhắn cũng dựa vào insight từ những học viên hoàn thành nhanh, để nhân rộng best practice.
 
 ## 3. Những tính năng nào KHÔNG thuộc phạm vi phát triển?
 Để đảm bảo tiến độ và tính tập trung của MVP, các tính năng sau sẽ không được thực hiện:
