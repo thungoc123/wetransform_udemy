@@ -51,7 +51,7 @@ Tài liệu này là danh sách issue gợi ý để GitHub Copilot tạo issue 
 - Estimate: 3 SP
 - Labels: priority:high, type:backend, size:3
 - Depends on: FND-002
-- Suggested column: Backlog
+- Suggested column: Done
 - Summary: Cài đặt DI/IoC container và đăng ký service core.
 
 ### [FND-005] Configure Database Connection
