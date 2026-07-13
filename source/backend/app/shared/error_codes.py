@@ -1,0 +1,21 @@
+from enum import Enum
+
+
+class ErrorCode(str, Enum):
+    # System Errors
+    INTERNAL_ERROR = "SYS_001"
+    DATABASE_ERROR = "SYS_002"
+    VALIDATION_ERROR = "SYS_003"
+    NOT_FOUND = "SYS_004"
+
+    # Auth Errors
+    AUTH_INVALID_CREDENTIALS = "AUTH_001"
+    AUTH_TOKEN_EXPIRED = "AUTH_002"
+    AUTH_TOKEN_INVALID = "AUTH_003"
+    AUTH_FORBIDDEN = "AUTH_004"
+    AUTH_USER_NOT_FOUND = "AUTH_005"
+
+    # Domain Errors
+    COURSE_NOT_FOUND = "COURSE_001"
+    STUDENT_NOT_FOUND = "STUDENT_001"
+    IMPORT_FAILED = "IMPORT_001"

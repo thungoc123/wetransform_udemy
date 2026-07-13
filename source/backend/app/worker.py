@@ -1,10 +1,9 @@
 from celery import Celery
+
 from app.config import settings
 
 celery_app = Celery(
-    "learning_analytics_worker",
-    broker=settings.REDIS_URL,
-    backend=settings.REDIS_URL
+    "learning_analytics_worker", broker=settings.REDIS_URL, backend=settings.REDIS_URL
 )
 
 celery_app.conf.update(

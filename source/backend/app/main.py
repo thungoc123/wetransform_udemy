@@ -20,6 +20,7 @@ from app.shared.exceptions import (
 )
 from app.shared.logger import setup_logging
 from app.shared.middleware import LoggingMiddleware, SecurityHeadersMiddleware
+from app.shared.observability import setup_observability
 from app.shared.rate_limit import RateLimitMiddleware
 
 
@@ -27,6 +28,10 @@ from app.shared.rate_limit import RateLimitMiddleware
 async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
     # Khởi tạo structlog khi app khởi động
     setup_logging()
+
+    # Khởi tạo OpenTelemetry (Tracing & Metrics)
+    setup_observability(app)
+
     yield
     # Cleanup nếu cần
 

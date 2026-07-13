@@ -18,12 +18,13 @@ if config.config_file_name is not None:
 
 # Set database URL dynamically from Settings
 from app.config import settings
+
 config.set_main_option("sqlalchemy.url", settings.DATABASE_URL)
 
 # add your model's MetaData object here
 # for 'autogenerate' support
 from app.database import Base
-import app.modules.auth.models  # Import models to register with Base
+
 target_metadata = Base.metadata
 
 # other values from the config, defined by the needs of env.py,

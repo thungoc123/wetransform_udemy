@@ -4,6 +4,7 @@ from fastapi import Request, status
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
 
+from app.shared.error_codes import ErrorCode
 from app.shared.response import StandardResponse
 
 
@@ -11,29 +12,42 @@ class AppException(Exception):
     def __init__(
         self,
         message: str,
+        error_code: ErrorCode = ErrorCode.INTERNAL_ERROR,
         status_code: int = status.HTTP_400_BAD_REQUEST,
         errors: list[Any] | None = None,
     ):
         self.message = message
+        self.error_code = error_code
         self.status_code = status_code
         self.errors = errors
 
 
 class NotFoundException(AppException):
     def __init__(self, message: str = "Resource not found"):
-        super().__init__(message=message, status_code=status.HTTP_404_NOT_FOUND)
+        super().__init__(
+            message=message,
+            error_code=ErrorCode.NOT_FOUND,
+            status_code=status.HTTP_404_NOT_FOUND,
+        )
 
 
 class ForbiddenException(AppException):
     def __init__(self, message: str = "Access forbidden"):
-        super().__init__(message=message, status_code=status.HTTP_403_FORBIDDEN)
+        super().__init__(
+            message=message,
+            error_code=ErrorCode.AUTH_FORBIDDEN,
+            status_code=status.HTTP_403_FORBIDDEN,
+        )
 
 
 async def app_exception_handler(request: Request, exc: AppException):
     return JSONResponse(
         status_code=exc.status_code,
         content=StandardResponse(
-            success=False, message=exc.message, errors=exc.errors
+            success=False,
+            message=exc.message,
+            error_code=exc.error_code.value,
+            errors=exc.errors,
         ).model_dump(),
     )
 

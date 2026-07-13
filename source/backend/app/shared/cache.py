@@ -1,13 +1,18 @@
 import json
 from typing import Any, Optional
-import redis.asyncio as redis
-from app.config import settings
+
+import redis.asyncio as redis  # type: ignore
 import structlog
+
+from app.config import settings
 
 logger = structlog.get_logger(__name__)
 
 # Initialize Redis client
-redis_client = redis.from_url(settings.REDIS_URL, encoding="utf-8", decode_responses=True)
+redis_client = redis.from_url(
+    settings.REDIS_URL, encoding="utf-8", decode_responses=True
+)
+
 
 async def get_cache(key: str) -> Optional[Any]:
     try:
@@ -16,6 +21,7 @@ async def get_cache(key: str) -> Optional[Any]:
     except Exception as e:
         logger.error("redis_get_failed", key=key, error=str(e))
         return None
+
 
 async def set_cache(key: str, value: Any, expire: int = 3600) -> bool:
     try:
