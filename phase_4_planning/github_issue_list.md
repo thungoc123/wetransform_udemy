@@ -247,7 +247,7 @@ Tài liệu này là danh sách issue gợi ý để GitHub Copilot tạo issue 
 - Estimate: 2 SP
 - Labels: priority:medium, type:devops, size:2
 - Depends on: FND-011
-- Suggested column: Backlog
+- Suggested column: Done
 - Summary: Bật metrics và monitoring cho hệ thống.
 
 ### [FND-027] Configure Distributed Tracing
@@ -256,7 +256,7 @@ Tài liệu này là danh sách issue gợi ý để GitHub Copilot tạo issue 
 - Estimate: 2 SP
 - Labels: priority:medium, type:devops, size:2
 - Depends on: FND-011
-- Suggested column: Backlog
+- Suggested column: Done
 - Summary: Cấu hình tracing cho request flow.
 
 ### [FND-028] Configure Audit Logging
@@ -265,7 +265,7 @@ Tài liệu này là danh sách issue gợi ý để GitHub Copilot tạo issue 
 - Estimate: 2 SP
 - Labels: priority:medium, type:backend, type:infra, size:2
 - Depends on: FND-011
-- Suggested column: Backlog
+- Suggested column: Done
 - Summary: Thiết lập audit trail cho action logging.
 
 ### [FND-029] Configure Error Code Registry
@@ -274,7 +274,7 @@ Tài liệu này là danh sách issue gợi ý để GitHub Copilot tạo issue 
 - Estimate: 1 SP
 - Labels: priority:medium, type:backend, size:1
 - Depends on: FND-008
-- Suggested column: Backlog
+- Suggested column: Done
 - Summary: Chuẩn hóa error code cho API.
 
 ### [FND-030] Configure Localization Framework
@@ -283,7 +283,7 @@ Tài liệu này là danh sách issue gợi ý để GitHub Copilot tạo issue 
 - Estimate: 1 SP
 - Labels: priority:low, type:backend, size:1
 - Depends on: FND-004
-- Suggested column: Backlog
+- Suggested column: Done
 - Summary: Thiết lập framework đa ngôn ngữ nếu cần.
 
 ### [FND-031] Configure Unit Test Framework
@@ -328,7 +328,7 @@ Tài liệu này là danh sách issue gợi ý để GitHub Copilot tạo issue 
 - Estimate: 2 SP
 - Labels: priority:high, type:devops, size:2
 - Depends on: FND-001
-- Suggested column: Backlog
+- Suggested column: Done
 - Summary: Tạo Dockerfile và docker-compose cho app.
 
 ### [FND-036] Configure CI Pipeline
@@ -337,7 +337,7 @@ Tài liệu này là danh sách issue gợi ý để GitHub Copilot tạo issue 
 - Estimate: 3 SP
 - Labels: priority:high, type:devops, size:3
 - Depends on: FND-031, FND-033
-- Suggested column: Backlog
+- Suggested column: Done
 - Summary: Thiết lập pipeline build/test/lint tự động.
 
 ### [FND-037] Configure CD Pipeline
@@ -346,7 +346,7 @@ Tài liệu này là danh sách issue gợi ý để GitHub Copilot tạo issue 
 - Estimate: 2 SP
 - Labels: priority:high, type:devops, size:2
 - Depends on: FND-036
-- Suggested column: Backlog
+- Suggested column: Done
 - Summary: Chuẩn bị deployment pipeline cho staging/production.
 
 ### [FND-038] Configure Secrets Management
@@ -355,7 +355,7 @@ Tài liệu này là danh sách issue gợi ý để GitHub Copilot tạo issue 
 - Estimate: 2 SP
 - Labels: priority:high, type:devops, size:2
 - Depends on: FND-003
-- Suggested column: Backlog
+- Suggested column: Done
 - Summary: Quản lý secret và environment credentials.
 
 ### [FND-039] Configure Backup Strategy
@@ -364,7 +364,7 @@ Tài liệu này là danh sách issue gợi ý để GitHub Copilot tạo issue 
 - Estimate: 2 SP
 - Labels: priority:medium, type:devops, size:2
 - Depends on: FND-005
-- Suggested column: Backlog
+- Suggested column: Done
 - Summary: Thiết lập strategy backup và restore database.
 
 ### [FND-040] Configure Project Documentation

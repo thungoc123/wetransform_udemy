@@ -1,3 +1,10 @@
+"""
+Database Configuration Module.
+
+This module provides the global asynchronous SQLAlchemy engine,
+session maker, and declarative base used across the application.
+"""
+
 from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker, create_async_engine
 from sqlalchemy.orm import declarative_base
 

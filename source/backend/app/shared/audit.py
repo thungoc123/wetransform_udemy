@@ -1,3 +1,10 @@
+"""
+Audit Logging Module.
+
+This module provides functionality for logging critical business events
+(audit trails) with context such as user ID, resources, and client IPs.
+"""
+
 from typing import Any, Optional
 
 import structlog

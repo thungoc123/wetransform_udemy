@@ -1,3 +1,10 @@
+"""
+Observability Module.
+
+This module configures OpenTelemetry tracing and metrics for the FastAPI application,
+and sets up a Prometheus endpoint for metric scraping.
+"""
+
 import structlog
 from fastapi import FastAPI
 from opentelemetry import metrics, trace
@@ -19,6 +26,13 @@ logger = structlog.get_logger(__name__)
 def setup_observability(
     app: FastAPI, service_name: str = "learning-analytics-api"
 ) -> None:
+    """
+    Set up observability tools for the FastAPI application.
+
+    Args:
+        app: The FastAPI application instance.
+        service_name: The name of the service for tracing and metrics.
+    """
     resource = Resource.create({"service.name": service_name})
 
     # 1. Setup Tracing
