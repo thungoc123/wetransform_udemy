@@ -42,7 +42,7 @@ Tài liệu này là danh sách issue gợi ý để GitHub Copilot tạo issue 
 - Estimate: 2 SP
 - Labels: priority:high, type:backend, type:infra, size:2
 - Depends on: FND-001
-- Suggested column: Backlog
+- Suggested column: Done
 - Summary: Thiết lập env config, biến môi trường và config loader.
 
 ### [FND-004] Configure Dependency Injection
