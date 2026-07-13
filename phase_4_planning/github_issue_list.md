@@ -87,7 +87,7 @@ Tài liệu này là danh sách issue gợi ý để GitHub Copilot tạo issue 
 - Estimate: 2 SP
 - Labels: priority:high, type:backend, size:2
 - Depends on: FND-004
-- Suggested column: Backlog
+- Suggested column: Done
 - Summary: Thiết lập global exception handling thống nhất.
 
 ### [FND-009] Configure Global Validation Framework
@@ -96,7 +96,7 @@ Tài liệu này là danh sách issue gợi ý để GitHub Copilot tạo issue 
 - Estimate: 2 SP
 - Labels: priority:high, type:backend, size:2
 - Depends on: FND-004
-- Suggested column: Backlog
+- Suggested column: Done
 - Summary: Thêm validation pipeline cho DTO và request payload.
 
 ### [FND-010] Configure Unified API Response
@@ -105,7 +105,7 @@ Tài liệu này là danh sách issue gợi ý để GitHub Copilot tạo issue 
 - Estimate: 2 SP
 - Labels: priority:high, type:backend, type:api, size:2
 - Depends on: FND-008
-- Suggested column: Backlog
+- Suggested column: Done
 - Summary: Chuẩn hóa format response cho toàn hệ thống.
 
 ### [FND-011] Configure Logging Framework

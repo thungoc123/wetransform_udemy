@@ -13,6 +13,19 @@ app = FastAPI(
     version="1.0.0"
 )
 
+from fastapi.exceptions import RequestValidationError
+from app.shared.exceptions import (
+    AppException,
+    app_exception_handler,
+    validation_exception_handler,
+    global_exception_handler
+)
+
+# Register Exception Handlers
+app.add_exception_handler(AppException, app_exception_handler)
+app.add_exception_handler(RequestValidationError, validation_exception_handler)
+app.add_exception_handler(Exception, global_exception_handler)
+
 # Basic CORS configuration (will be expanded in FND-015)
 app.add_middleware(
     CORSMiddleware,
