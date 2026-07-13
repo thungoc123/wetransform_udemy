@@ -292,7 +292,7 @@ Tài liệu này là danh sách issue gợi ý để GitHub Copilot tạo issue 
 - Estimate: 2 SP
 - Labels: priority:high, type:testing, size:2
 - Depends on: FND-001
-- Suggested column: Backlog
+- Suggested column: Done
 - Summary: Cài đặt unit test framework cho backend.
 
 ### [FND-032] Configure Integration Test Framework
@@ -301,7 +301,7 @@ Tài liệu này là danh sách issue gợi ý để GitHub Copilot tạo issue 
 - Estimate: 2 SP
 - Labels: priority:high, type:testing, size:2
 - Depends on: FND-005
-- Suggested column: Backlog
+- Suggested column: Done
 - Summary: Cài đặt integration test framework và test containers.
 
 ### [FND-033] Configure Code Quality Tools
@@ -310,7 +310,7 @@ Tài liệu này là danh sách issue gợi ý để GitHub Copilot tạo issue 
 - Estimate: 2 SP
 - Labels: priority:high, type:backend, type:devops, size:2
 - Depends on: FND-001
-- Suggested column: Backlog
+- Suggested column: Done
 - Summary: Thiết lập linting, formatting và static analysis.
 
 ### [FND-034] Configure Git Hooks
@@ -319,7 +319,7 @@ Tài liệu này là danh sách issue gợi ý để GitHub Copilot tạo issue 
 - Estimate: 1 SP
 - Labels: priority:medium, type:devops, size:1
 - Depends on: FND-033
-- Suggested column: Backlog
+- Suggested column: Done
 - Summary: Cài đặt pre-commit hooks và auto lint.
 
 ### [FND-035] Configure Docker Environment
