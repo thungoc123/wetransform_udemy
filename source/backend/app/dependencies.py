@@ -2,22 +2,20 @@ from typing import AsyncGenerator, Any
 from fastapi import Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer
 
-# import AsyncSession will be used in FND-005
-# from sqlalchemy.ext.asyncio import AsyncSession
-# from app.database import async_session
+# Import AsyncSession and async_session_maker from app.database
+from sqlalchemy.ext.asyncio import AsyncSession
+from app.database import async_session_maker
 
 # OAuth2 scheme for JWT token extraction
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/api/v1/auth/login")
 
-
-async def get_db() -> AsyncGenerator[Any, None]:
+async def get_db() -> AsyncGenerator[AsyncSession, None]:
     """
     Dependency provides an async database session.
-    [FND-005] Will be updated to yield a real SQLAlchemy AsyncSession.
+    Yields a real SQLAlchemy AsyncSession.
     """
-    # async with async_session() as session:
-    #     yield session
-    yield None  # Stub for now
+    async with async_session_maker() as session:
+        yield session
 
 
 async def get_current_teacher(

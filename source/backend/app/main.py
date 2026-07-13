@@ -28,6 +28,16 @@ app.include_router(data_import_router)
 app.include_router(analytics_router)
 app.include_router(intervention_router)
 
+from sqlalchemy import text
+from sqlalchemy.ext.asyncio import AsyncSession
+from fastapi import Depends
+from app.dependencies import get_db
+
 @app.get("/health", tags=["System"])
-async def root_health():
-    return {"status": "ok", "service": "AI Learning Analytics API"}
+async def health_check(db: AsyncSession = Depends(get_db)):
+    """Health check endpoint to verify API and Database connection."""
+    try:
+        await db.execute(text("SELECT 1"))
+        return {"status": "ok", "database": "connected", "service": "AI Learning Analytics API"}
+    except Exception as e:
+        return {"status": "error", "database": "disconnected", "service": "AI Learning Analytics API", "details": str(e)}

@@ -59,8 +59,8 @@ Tài liệu này là danh sách issue gợi ý để GitHub Copilot tạo issue 
 - Priority: High
 - Estimate: 3 SP
 - Labels: priority:high, type:database, type:backend, size:3
-- Depends on: FND-004
-- Suggested column: Backlog
+- Depends on: FND-003, FND-004
+- Suggested column: Done
 - Summary: Kết nối database và thiết lập ORM/connection pool.
 
 ### [FND-006] Configure Migration Framework
