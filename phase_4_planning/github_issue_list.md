@@ -33,7 +33,7 @@ Tài liệu này là danh sách issue gợi ý để GitHub Copilot tạo issue 
 - Estimate: 2 SP
 - Labels: priority:high, type:backend, size:2
 - Depends on: FND-001
-- Suggested column: Backlog
+- Suggested column: Done
 - Summary: Tạo cấu trúc thư mục và module chuẩn theo project structure.
 
 ### [FND-003] Configure Environment Management
