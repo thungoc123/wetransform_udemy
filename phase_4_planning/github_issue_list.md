@@ -24,7 +24,7 @@ Tài liệu này là danh sách issue gợi ý để GitHub Copilot tạo issue 
 - Estimate: 3 SP
 - Labels: priority:high, type:backend, type:infra, size:3
 - Depends on: None
-- Suggested column: Ready
+- Suggested column: Done
 - Summary: Khởi tạo project backend theo tech stack đã chọn, cấu hình base app và môi trường dev.
 
 ### [FND-002] Configure Project Structure
