@@ -68,7 +68,19 @@ docker-compose up -d
 - **Jaeger UI**: `http://localhost:16686`
 - **Prometheus UI**: `http://localhost:9090`
 
-### 4. Khởi chạy Backend API
+### 4. Khởi tạo Cơ sở dữ liệu (Database Migrations)
+Sau khi Docker PostgreSQL đã chạy, bạn cần sử dụng Alembic để tạo bảng vào DB:
+```bash
+# Chạy migration để khởi tạo cấu trúc các bảng
+alembic upgrade head
+```
+
+*(Tùy chọn) Nếu bạn có thay đổi code ở `app/models/`, hãy chạy lệnh sau để tự động tạo file migration mới:*
+```bash
+alembic revision --autogenerate -m "Mô tả thay đổi model"
+```
+
+### 5. Khởi chạy Backend API
 Khởi chạy FastAPI server (tự động reload khi có thay đổi code):
 ```bash
 uvicorn app.main:app --reload

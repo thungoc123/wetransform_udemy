@@ -4,7 +4,7 @@ import structlog
 from sqlalchemy import select
 
 from app.database import async_session_maker
-from app.modules.auth.models import Teacher
+from app.models.teacher import Teacher
 from app.shared.security import hash_password
 
 logger = structlog.get_logger(__name__)
@@ -23,7 +23,7 @@ async def seed_data():
             logger.info("admin_user_not_found_creating")
             new_admin = Teacher(
                 email="admin@learning-analytics.com",
-                hashed_password=hash_password("admin"),
+                password_hash=hash_password("admin"),
                 name="Admin Teacher",
             )
             session.add(new_admin)

@@ -1,15 +1,15 @@
 # User Flow: UF-002 - Data Integration & Ingestion (Kết nối & Nạp dữ liệu)
 
-Tài liệu này đặc tả chi tiết luồng nạp dữ liệu tiến trình học tập của học viên từ Udemy vào hệ thống (thông qua API hoặc tải lên File).
+Tài liệu này đặc tả chi tiết luồng kết nối và nạp dữ liệu từ Udemy vào hệ thống (thông qua API hoặc tải lên File), trong đó API key chỉ dùng để lấy danh sách khóa học của giảng viên.
 
 ---
 
 ## 1. Flow Overview
 * **Flow ID**: UF-002
 * **Flow Name**: Data Integration & Ingestion (Kết nối & Nạp dữ liệu)
-* **Description**: Cho phép giảng viên kết nối tài khoản Udemy của họ thông qua Udemy API hoặc tải lên tệp xuất dữ liệu Udemy (CSV/XLSX) để hệ thống tiến hành phân tích hành vi học viên.
+* **Description**: Cho phép giảng viên kết nối tài khoản Udemy thông qua Udemy API key để đồng bộ danh sách khóa học đang sở hữu, hoặc tải lên tệp xuất dữ liệu Udemy (CSV/XLSX) để nạp dữ liệu chi tiết phục vụ phân tích hành vi học viên.
 * **Primary Actor**: Teacher / Course Creator (Giảng viên / Người tạo khóa học)
-* **User Goal**: Tải lên dữ liệu học tập thành công và kích hoạt quá trình phân tích dữ liệu của AI.
+* **User Goal**: Kết nối thành công nguồn Udemy, đồng bộ danh sách khóa học và nạp dữ liệu chi tiết để kích hoạt phân tích AI.
 * **Related User Stories**: [US-002: Kết nối hoặc tải lên dữ liệu Udemy](file:///c:/Users/admin/Documents/AI%20for%20vietnam/Agentic%20SDLC/phase_2_story_definition/UserStories.md#us-002-kết-nối-hoặc-tải-lên-dữ-liệu-udemy)
 
 ---
@@ -35,7 +35,7 @@ Luồng nạp dữ liệu bao gồm 2 phương thức song song. Dưới đây l
 | :---: | :---: | :---: | :---: | :---: |
 | 1 | Giảng viên | Truy cập màn hình "Quản lý nguồn dữ liệu" và chọn tab "Kết nối API Udemy" | Hiển thị Form cấu hình kết nối API gồm các trường: Client ID, Client Secret/API Key, và nút "Kết nối & Đồng bộ". | [US-002](file:///c:/Users/admin/Documents/AI%20for%20vietnam/Agentic%20SDLC/phase_2_story_definition/UserStories.md#us-002-kết-nối-hoặc-tải-lên-dữ-liệu-udemy) |
 | 2 | Giảng viên | Nhập đầy đủ thông tin API credentials và nhấn "Kết nối & Đồng bộ" | 1. Hiển thị trạng thái "Đang kiểm tra kết nối...".<br>2. Gửi request xác thực tới Udemy API.<br>3. Nhận phản hồi thành công từ Udemy. | [US-002](file:///c:/Users/admin/Documents/AI%20for%20vietnam/Agentic%20SDLC/phase_2_story_definition/UserStories.md#us-002-kết-nối-hoặc-tải-lên-dữ-liệu-udemy) |
-| 3 | Hệ thống | Tự động đồng bộ và xử lý dữ liệu học tập | 1. Tải về danh sách khóa học, bài học và logs tiến trình học tập.<br>2. Áp dụng BR-004 (Ẩn danh hóa email học viên).<br>3. Lưu vào cơ sở dữ liệu hệ thống.<br>4. Chuyển trạng thái kết nối thành "Đã kết nối".<br>5. Chuyển hướng về Dashboard và hiển thị tiến trình phân tích. | [US-002](file:///c:/Users/admin/Documents/AI%20for%20vietnam/Agentic%20SDLC/phase_2_story_definition/UserStories.md#us-002-kết-nối-hoặc-tải-lên-dữ-liệu-udemy) |
+| 3 | Hệ thống | Đồng bộ danh sách khóa học từ Udemy | 1. Tải về danh sách khóa học thuộc giảng viên đang đăng nhập.<br>2. Lưu metadata khóa học vào hệ thống (course id, title, trạng thái kết nối).<br>3. Chuyển trạng thái kết nối thành "Đã kết nối".<br>4. Hiển thị thông báo phạm vi API key: chỉ đồng bộ danh sách khóa học, không đồng bộ curriculum/video/log học tập.<br>5. Gợi ý giảng viên tải file CSV/XLSX để nạp dữ liệu phân tích chi tiết. | [US-002](file:///c:/Users/admin/Documents/AI%20for%20vietnam/Agentic%20SDLC/phase_2_story_definition/UserStories.md#us-002-kết-nối-hoặc-tải-lên-dữ-liệu-udemy) |
 
 ### Nhánh B: Tải lên Tệp dữ liệu Udemy (File Upload)
 | Step | Actor | Action | System Response | Related Story |
@@ -55,9 +55,11 @@ Luồng nạp dữ liệu bao gồm 2 phương thức song song. Dưới đây l
 * **YES**: Tiến hành kiểm tra giới hạn dữ liệu.
 * **NO**: Chuyển tới **Exception Flow: Sai cấu trúc tệp tải lên** (Từ chối file và hiển thị lỗi cụ thể).
 
-### D-003: Dữ liệu tải lên/API có vượt quá giới hạn MVP (3 khóa học, 2.600 học viên) không?
+### D-003: Dữ liệu có vượt quá giới hạn MVP không?
+* **Nhánh API**: Kiểm tra số lượng khóa học đồng bộ có vượt quá 3 khóa học không.
+* **Nhánh File**: Kiểm tra số lượng khóa học/học viên có vượt quá giới hạn (3 khóa học, 2.600 học viên) không.
 * **YES**: Chuyển tới **Exception Flow: Vượt quá giới hạn MVP**.
-* **NO**: Tiến hành xử lý ẩn danh hóa PII và lưu trữ dữ liệu thành công.
+* **NO**: Tiếp tục lưu dữ liệu theo phạm vi của từng nhánh.
 
 ---
 
@@ -86,11 +88,11 @@ Luồng nạp dữ liệu bao gồm 2 phương thức song song. Dưới đây l
   4. Trả giao diện về trạng thái chờ chọn tệp.
 
 ### EF-003: Vượt quá giới hạn MVP
-* **Mô tả**: Tệp tải lên hoặc dữ liệu API chứa nhiều hơn 3 khóa học hoặc vượt quá 2.600 học viên.
+* **Mô tả**: Dữ liệu vượt quá giới hạn MVP đã định nghĩa theo từng nhánh tích hợp.
 * **Các bước thực hiện**:
-  1. Giảng viên tải lên tệp dữ liệu chứa 5 khóa học hoặc tổng số học viên lên tới 4.000 người.
-  2. Hệ thống đếm số lượng bản ghi sau khi parse tệp/API.
-  3. Hệ thống chặn tiến trình lưu và đưa ra thông báo lỗi: *"Vượt quá giới hạn phiên bản thử nghiệm (MVP). Hệ thống hiện tại chỉ hỗ trợ xử lý tối đa 3 khóa học và 2.600 học viên. Vui lòng lọc bớt dữ liệu trước khi tải lên."*
+  1. Nhánh API: Giảng viên kết nối API key nhưng tài khoản có hơn 3 khóa học trong phạm vi MVP.<br>Nhánh File: Giảng viên tải lên tệp chứa nhiều hơn 3 khóa học hoặc tổng số học viên vượt 2.600.
+  2. Hệ thống đếm số lượng bản ghi theo từng nhánh xử lý.
+  3. Hệ thống chặn tiến trình lưu và đưa ra thông báo lỗi phù hợp với nhánh đang thực hiện: *"Vượt quá giới hạn phiên bản thử nghiệm (MVP). Hệ thống hiện tại chỉ hỗ trợ xử lý tối đa 3 khóa học và 2.600 học viên. Vui lòng lọc bớt dữ liệu trước khi tải lên/đồng bộ."*
   4. Trả giao diện về trạng thái ban đầu.
 
 ### EF-004: File import chứa dữ liệu không đồng nhất (Edge Case)
@@ -106,13 +108,14 @@ Luồng nạp dữ liệu bao gồm 2 phương thức song song. Dưới đây l
 * **BR-003 (Định dạng file)**: Hệ thống chỉ chấp nhận định dạng file kết xuất chính thức từ Udemy (CSV/XLSX) và kiểm tra schema nghiêm ngặt. *(Nguồn: US-002)*
 * **BR-004 (Ẩn danh hóa PII)**: Tất cả dữ liệu cá nhân nhạy cảm (như địa chỉ email, tên đầy đủ nếu có) của học viên phải được ẩn danh hóa (Anonymized) hoặc băm (Hashed/Encrypted) ngay lập tức khi được import vào hệ thống để tuân thủ quy định bảo mật quyền riêng tư học viên. *(Nguồn: US-002)*
 * **BR-005 (Giới hạn MVP)**: Giới hạn hệ thống xử lý tối đa 3 khóa học mẫu và 2.600 học viên hoạt động trong một tài khoản. *(Nguồn: US-002)*
+* **BR-006 (Phạm vi Udemy API Key)**: Kết nối bằng Udemy API key chỉ đồng bộ danh sách khóa học của giảng viên; không đồng bộ curriculum, video hoặc learning logs qua nhánh API key. Dữ liệu chi tiết phải nạp qua tệp CSV/XLSX. *(Constraint tích hợp Udemy)*
 
 ---
 
 ## 9. Success State
-* Dữ liệu các khóa học, bài học và logs hoạt động được lưu đầy đủ vào Cơ sở dữ liệu.
-* Trạng thái nguồn dữ liệu ghi nhận: "Đã đồng bộ thành công ngày [DD/MM/YYYY]".
-* Hệ thống tự động kích hoạt background task để xử lý phân tích và hiển thị Dashboard.
+* Nhánh API: Danh sách khóa học của giảng viên được đồng bộ thành công vào hệ thống và trạng thái nguồn dữ liệu cập nhật "Đã kết nối".
+* Nhánh File: Dữ liệu chi tiết (bao gồm học viên/hoạt động học tập) được nạp thành công vào Cơ sở dữ liệu.
+* Hệ thống chỉ kích hoạt background task phân tích sau khi đã có dữ liệu chi tiết từ nhánh File.
 
 ---
 
@@ -145,8 +148,13 @@ flowchart TD
     ConnectAPI -- YES --> PullData[Tải dữ liệu từ Udemy]
     ValFormat -- YES --> ParseFile[Đọc và parse dữ liệu file]
 
-    PullData --> ValLimit{"Vượt giới hạn MVP?<br>(Max 3 khóa học, 2600 học viên - BR-005)"}
+    PullData --> ApiLimit{"Vượt giới hạn MVP?<br>(Nhánh API: Max 3 khóa học - BR-005)"}
     ParseFile --> ValLimit
+
+    ApiLimit -- "YES (EF-003)" --> ShowLimitError
+    ApiLimit -- NO --> SaveCourseList[Lưu danh sách khóa học vào Cơ sở dữ liệu]
+    SaveCourseList --> ApiConnected[Đánh dấu đã kết nối API (chỉ có Course List)]
+    ApiConnected --> SuggestUpload[Hiển thị gợi ý tải file để nạp dữ liệu chi tiết]
 
     ValLimit -- "YES (EF-003)" --> ShowLimitError[Hiển thị lỗi vượt giới hạn MVP] --> AccessSource
 
@@ -158,6 +166,8 @@ flowchart TD
     SaveDB --> TriggerAI[Kích hoạt Background Job phân tích]
     TriggerAI --> RedirectDash["Hiển thị trạng thái Thành công và Chuyển hướng Dashboard"]
     RedirectDash --> Success([Nạp dữ liệu Thành công])
+
+    SuggestUpload --> SuccessApi([Kết nối API thành công - Đã đồng bộ Course List])
 ```
 
 ---
@@ -180,4 +190,4 @@ flowchart TD
 
 ## 14. Missing Requirements
 * **Huỷ/Đóng kết nối**: Chưa có User Story mô tả việc giảng viên muốn xóa tệp đã import hoặc ngắt kết nối API Udemy, xóa toàn bộ dữ liệu cũ để import dữ liệu mới.
-* **Chi tiết API Udemy**: Cần làm rõ API Udemy của giảng viên có trả về dữ liệu timeline video (retention rate theo giây) hay chỉ trả về trạng thái hoàn thành bài học chung. *(Câu hỏi mở từ US-002)*
+* **Chi tiết API Udemy**: Trong phạm vi hiện tại, API key chỉ dùng để lấy danh sách khóa học. Cần đặc tả rõ endpoint/metadata trả về (course id, title, status, updated_at) và chiến lược refresh định kỳ.
