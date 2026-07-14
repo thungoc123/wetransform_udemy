@@ -5,7 +5,7 @@ from fastapi.security import OAuth2PasswordBearer
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.modules.auth.models import Teacher
+from app.models.teacher import Teacher
 from app.shared.constants import ErrorMessage
 from app.shared.dependencies.database import get_db
 from app.shared.exceptions import AppException
