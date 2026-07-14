@@ -1,0 +1,9 @@
+# Decision Log - US-006 User Flow Update
+
+| STT | Nội dung cập nhật | Nội dung cũ | Nội dung mới | Người cập nhật | Ngày và giờ |
+|---|---|---|---|---|---|
+| 1 | Cập nhật User Flow của US-006, bỏ bước 4 và điều chỉnh Acceptance Criteria tương ứng | User Flow có 4 bước, trong đó bước 4 là giảng viên chỉnh sửa nội dung và bấm gửi | User Flow còn 3 bước, hệ thống tự động cá nhân hóa và gửi nhắc nhở ở bước 3; Acceptance Criteria đổi sang luồng kích hoạt gửi tự động | GitHub Copilot | 2026-07-14 09:42:44 |
+| 2 | Cập nhật UF-004 (Happy Path, Mermaid Flow, Story Mapping) để đồng bộ với US-006 mới | Happy Path có bước 4 chỉnh sửa/gửi thủ công và bước 5 theo dõi phản hồi; Mermaid có nhánh mở modal và bấm gửi thủ công | Happy Path còn 4 bước (gửi tự động ở bước 3, theo dõi phản hồi ở bước 4); Mermaid bỏ nhánh modal/chỉnh sửa thủ công; Story Mapping cập nhật lại bước tương ứng | GitHub Copilot | 2026-07-14 09:42:44 |
+| 3 | Hiệu chỉnh lại US-006 theo xác nhận mới: không auto-send, giảng viên xác nhận gửi thủ công | Luồng Step 3 hiểu là hệ thống tự động cá nhân hóa và gửi ngay | Luồng Step 3 đổi thành xem mẫu nhắc nhở cá nhân hóa và giảng viên xác nhận/bấm gửi thủ công; cập nhật lại Acceptance Criteria tương ứng | GitHub Copilot | 2026-07-14 09:49:40 |
+| 4 | Hiệu chỉnh lại UF-004 để bỏ auto-send và đồng bộ lại Mermaid/Story Mapping | Mô tả luồng và Mermaid thể hiện gửi tự động sau khi chọn học viên | Bổ sung bước xem trước mẫu và quyết định xác nhận gửi; chỉ gửi khi giảng viên xác nhận; cập nhật Story Mapping và UX suggestion liên quan | GitHub Copilot | 2026-07-14 09:49:40 |
+| 5 | Cập nhật Use Case và issue liên quan với luồng gửi thủ công | Use case cũ không còn trong workspace và issue FE-006/INT-003 mô tả chưa rõ xác nhận gửi thủ công | Tạo mới UseCaseDiagram.md với use case Preview + Confirm Send; cập nhật summary FE-006 và INT-003 theo luồng gửi thủ công | GitHub Copilot | 2026-07-14 09:49:40 |

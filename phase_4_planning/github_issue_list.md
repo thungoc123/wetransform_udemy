@@ -660,7 +660,7 @@ Tài liệu này là danh sách issue gợi ý để GitHub Copilot tạo issue 
 - Labels: priority:high, type:frontend, size:3
 - Depends on: FE-007, BE-007
 - Suggested column: Backlog
-- Summary: Màn hình list at-risk student và composer reminder.
+- Summary: Màn hình list at-risk student, preview mẫu nhắc nhở và xác nhận gửi thủ công.
 
 ### [FE-007] Xây dựng Shared UI Components & State Layer
 - Assignee: Nguyễn Thị Ngọc Thư
@@ -700,7 +700,7 @@ Tài liệu này là danh sách issue gợi ý để GitHub Copilot tạo issue 
 - Labels: priority:high, type:integration, size:3
 - Depends on: BE-007, FE-006
 - Suggested column: Backlog
-- Summary: Link at-risk list với reminder tracking workflow.
+- Summary: Link at-risk list với luồng preview, xác nhận gửi thủ công và reminder tracking workflow.
 
 ### [INT-004] Tích hợp Import Pipeline → Dashboard
 - Assignee: Phan Đức Duy

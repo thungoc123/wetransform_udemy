@@ -7,7 +7,7 @@ Tài liệu này đặc tả chi tiết luồng giảng viên can thiệp bằng
 ## 1. Flow Overview
 * **Flow ID**: UF-004
 * **Flow Name**: Student Intervention & Re-engagement (Kích hoạt & Can thiệp học viên bỏ dở)
-* **Description**: Giảng viên duyệt danh sách học viên bỏ dở tại một bài học cụ thể hoặc danh sách học viên At-risk/Inactive của khóa học, chọn học viên cần can thiệp, xem trước mẫu tin nhắn tự động được tối ưu hóa từ "Best Practice" của nhóm hoàn thành nhanh, chỉnh sửa và gửi nhắc nhở. Hệ thống theo dõi phản hồi trong 7 ngày sau đó và hỗ trợ giảng viên chuẩn bị hành động phù hợp cho buổi học offline tiếp theo.
+* **Description**: Giảng viên duyệt danh sách học viên bỏ dở tại một bài học cụ thể hoặc danh sách học viên At-risk/Inactive của khóa học, chọn học viên cần can thiệp, xem trước mẫu tin nhắn cá nhân hóa dựa trên "Best Practice" của nhóm hoàn thành nhanh và xác nhận gửi thủ công. Hệ thống theo dõi phản hồi trong 7 ngày sau đó và hỗ trợ giảng viên chuẩn bị hành động phù hợp cho buổi học offline tiếp theo.
 * **Primary Actor**: Teacher / Course Creator (Giảng viên / Người tạo khóa học)
 * **User Goal**: Gửi thông điệp khích lệ tối ưu hóa đến học viên bỏ cuộc để chuyển đổi trạng thái của họ thành "Re-engaged" (Đã quay lại học).
 * **Related User Stories**:
@@ -32,10 +32,9 @@ Tài liệu này đặc tả chi tiết luồng giảng viên can thiệp bằng
 | Step | Actor | Action | System Response | Related Story |
 | :---: | :---: | :---: | :---: | :---: |
 | 1 | Giảng viên | Truy cập danh sách học viên "At-risk" của khóa học | Hiển thị bảng danh sách học viên gồm: Mã học viên (đã ẩn danh), bài giảng hiện tại đang dừng, số ngày không hoạt động, trạng thái gửi nhắc nhở gần nhất. | [US-006](file:///c:/Users/admin/Documents/AI%20for%20vietnam/Agentic%20SDLC/phase_2_story_definition/UserStories.md#us-006-gửi-nhắc-nhở-reminder-cho-học-viên-bỏ-dở-sử-dụng-best-practice) |
-| 2 | Giảng viên | Nhấp chọn nút "Gửi nhắc nhở" đối với học viên mục tiêu | 1. Hệ thống kiểm tra quy tắc tần suất gửi tin (BR-010).<br>2. Hiển thị hộp thoại (Modal) soạn thảo tin nhắn nhắc nhở. | [US-006](file:///c:/Users/admin/Documents/AI%20for%20vietnam/Agentic%20SDLC/phase_2_story_definition/UserStories.md#us-006-gửi-nhắc-nhở-reminder-cho-học-viên-bỏ-dở-sử-dụng-best-practice) |
-| 3 | Hệ thống | Tự động tạo nội dung tin nhắn dựa trên mẫu tối ưu hóa | Điền tự động các trường cá nhân hóa: Tên/Mã học viên, bài học đang dừng, và lời khuyên thành công đúc kết từ nhóm học viên học nhanh (Best Practice). | [US-006](file:///c:/Users/admin/Documents/AI%20for%20vietnam/Agentic%20SDLC/phase_2_story_definition/UserStories.md#us-006-gửi-nhắc-nhở-reminder-cho-học-viên-bỏ-dở-sử-dụng-best-practice) |
-| 4 | Giảng viên | Chỉnh sửa nội dung tin nhắn nếu cần và nhấn "Gửi" | 1. Hệ thống gửi tin nhắn/email tới học viên.<br>2. Ghi nhận thời gian gửi và kích hoạt bộ theo dõi phản hồi 7 ngày.<br>3. Hiển thị thông báo "Đã gửi nhắc nhở thành công". | [US-006](file:///c:/Users/admin/Documents/AI%20for%20vietnam/Agentic%20SDLC/phase_2_story_definition/UserStories.md#us-006-gửi-nhắc-nhở-reminder-cho-học-viên-bỏ-dở-sử-dụng-best-practice) |
-| 5 | Học viên | Quay lại học bài giảng mới trong vòng 7 ngày sau đó | Hệ thống đồng bộ dữ liệu tự động, phát hiện hoạt động mới, đổi trạng thái học viên thành "Re-engaged" và cập nhật tỷ lệ can thiệp thành công trên Dashboard. | [US-006](file:///c:/Users/admin/Documents/AI%20for%20vietnam/Agentic%20SDLC/phase_2_story_definition/UserStories.md#us-006-gửi-nhắc-nhở-reminder-cho-học-viên-bỏ-dở-sử-dụng-best-practice) |
+| 2 | Giảng viên | Nhấp chọn nút "Gửi nhắc nhở" đối với học viên mục tiêu | Hệ thống kiểm tra quy tắc tần suất gửi tin (BR-010) và tải mẫu nhắc nhở Best Practice ở chế độ xem trước. | [US-006](file:///c:/Users/admin/Documents/AI%20for%20vietnam/Agentic%20SDLC/phase_2_story_definition/UserStories.md#us-006-gửi-nhắc-nhở-reminder-cho-học-viên-bỏ-dở-sử-dụng-best-practice) |
+| 3 | Giảng viên | Xem trước mẫu nhắc nhở cá nhân hóa và nhấn "Xác nhận gửi" | 1. Hệ thống điền tự động các trường cá nhân hóa: Tên/Mã học viên, bài học đang dừng, và lời khuyên thành công đúc kết từ nhóm học viên học nhanh (Best Practice).<br>2. Hệ thống gửi tin nhắn/email tới học viên sau khi giảng viên xác nhận.<br>3. Ghi nhận thời gian gửi và kích hoạt bộ theo dõi phản hồi 7 ngày.<br>4. Hiển thị thông báo "Đã gửi nhắc nhở thành công". | [US-006](file:///c:/Users/admin/Documents/AI%20for%20vietnam/Agentic%20SDLC/phase_2_story_definition/UserStories.md#us-006-gửi-nhắc-nhở-reminder-cho-học-viên-bỏ-dở-sử-dụng-best-practice) |
+| 4 | Học viên | Quay lại học bài giảng mới trong vòng 7 ngày sau đó | Hệ thống đồng bộ dữ liệu tự động, phát hiện hoạt động mới, đổi trạng thái học viên thành "Re-engaged" và cập nhật tỷ lệ can thiệp thành công trên Dashboard. | [US-006](file:///c:/Users/admin/Documents/AI%20for%20vietnam/Agentic%20SDLC/phase_2_story_definition/UserStories.md#us-006-gửi-nhắc-nhở-reminder-cho-học-viên-bỏ-dở-sử-dụng-best-practice) |
 
 ---
 
@@ -126,12 +125,10 @@ flowchart TD
     CheckSpam -- NO --> FetchTemplate[Hệ thống tải mẫu Best Practice - BR-011]
 
     FetchTemplate --> Personalize[Cá nhân hóa nội dung: Tên, Bài học, Lời khuyên]
-    Personalize --> ShowModal[Hiển thị Modal Soạn thảo tin nhắn]
-
-    ShowModal --> ClickSend{Giảng viên nhấn Gửi?}
-    ClickSend -- "NO (Hủy)" --> CloseModal[Đóng Modal] --> ViewList
-
-    ClickSend -- YES --> CheckDelivery{Gửi tin thành công?}
+    Personalize --> PreviewTemplate[Hiển thị xem trước mẫu nhắc nhở]
+    PreviewTemplate --> ConfirmSend{Giảng viên xác nhận gửi?}
+    ConfirmSend -- "NO (Hủy)" --> ViewList
+    ConfirmSend -- YES --> CheckDelivery{Gửi tin thành công?}
     CheckDelivery -- "NO (EF-002)" --> SetDeliveryError["Đổi trạng thái: Gửi lỗi và Thông báo lỗi"] --> ViewList
     CheckDelivery -- YES --> SetMonitoring[Đổi trạng thái: Đang theo dõi phản hồi 7 ngày]
 
@@ -151,15 +148,15 @@ flowchart TD
 | Step | Story |
 | :--- | :--- |
 | Step 1, 2: Chọn học viên và kiểm tra điều kiện spam | [US-006](file:///c:/Users/admin/Documents/AI%20for%20vietnam/Agentic%20SDLC/phase_2_story_definition/UserStories.md#us-006-gửi-nhắc-nhở-reminder-cho-học-viên-bỏ-dở-sử-dụng-best-practice) |
-| Step 3: Cá nhân hóa mẫu tin nhắn Best Practice | [US-006](file:///c:/Users/admin/Documents/AI%20for%20vietnam/Agentic%20SDLC/phase_2_story_definition/UserStories.md#us-006-gửi-nhắc-nhở-reminder-cho-học-viên-bỏ-dở-sử-dụng-best-practice) |
-| Step 4, 5: Gửi tin nhắn và theo dõi phản hồi trong 7 ngày | [US-006](file:///c:/Users/admin/Documents/AI%20for%20vietnam/Agentic%20SDLC/phase_2_story_definition/UserStories.md#us-006-gửi-nhắc-nhở-reminder-cho-học-viên-bỏ-dở-sử-dụng-best-practice) |
+| Step 3: Xem trước mẫu Best Practice và xác nhận gửi thủ công | [US-006](file:///c:/Users/admin/Documents/AI%20for%20vietnam/Agentic%20SDLC/phase_2_story_definition/UserStories.md#us-006-gửi-nhắc-nhở-reminder-cho-học-viên-bỏ-dở-sử-dụng-best-practice) |
+| Step 4: Theo dõi phản hồi trong 7 ngày và ghi nhận Re-engaged | [US-006](file:///c:/Users/admin/Documents/AI%20for%20vietnam/Agentic%20SDLC/phase_2_story_definition/UserStories.md#us-006-gửi-nhắc-nhở-reminder-cho-học-viên-bỏ-dở-sử-dụng-best-practice) |
 
 ---
 
 ## 13. UX Improvement Suggestions
 * **Hiển thị độ ấm học viên (Engagement Score)**: Bổ sung chỉ số điểm tương tác (ví dụ: học viên này từng hoàn thành 80% khóa học rất nhanh trước khi dừng) để giúp giảng viên ưu tiên can thiệp nhóm có khả năng quay lại cao nhất.
-* **Bộ biên tập văn bản giàu tính năng (Rich Text Editor)**: Cho phép chèn link bài giảng trực tiếp, in đậm, in nghiêng hoặc chèn biểu tượng cảm xúc (emoji) vào mẫu tin nhắn để tăng tính tương tác sinh động.
-* **Tự động hóa can thiệp (Auto-Intervention)**: Cho phép giảng viên bật chế độ "Tự động gửi nhắc nhở" khi học viên vừa chạm ngưỡng At-risk (ví dụ: ngày thứ 14 không hoạt động) mà không cần bấm thủ công từng người.
+* **Khung xem trước nội dung nhắc nhở (Template Preview)**: Hiển thị rõ nội dung sẽ gửi và các biến cá nhân hóa đã được điền để giảng viên xác nhận nhanh, giảm thao tác nhưng vẫn kiểm soát được thông điệp.
+* **Lập lịch nhắc nhở có xác nhận (Scheduled with Approval)**: Cho phép giảng viên cấu hình lịch gửi trước theo nhóm học viên At-risk, nhưng vẫn yêu cầu xác nhận gửi ở thời điểm thực thi để giữ quyền kiểm soát.
 
 ---
 
