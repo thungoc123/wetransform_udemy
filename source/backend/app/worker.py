@@ -14,5 +14,5 @@ celery_app.conf.update(
     enable_utc=True,
 )
 
-# Load task modules automatically from app.shared
-celery_app.autodiscover_tasks(["app.shared"])
+# Load task modules automatically from app.shared and other modules
+celery_app.autodiscover_tasks(["app.shared", "app.modules.data_source"])

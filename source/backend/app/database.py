@@ -21,7 +21,7 @@ engine = create_async_engine(
     settings.DATABASE_URL,
     echo=(settings.APP_ENV == "development"),  # In SQL queries in development
     pool_pre_ping=True,  # Verify connections before usage
-    **kwargs
+    **kwargs,
 )
 
 # Session factory for Dependency Injection
@@ -34,18 +34,23 @@ async_session_maker = async_sessionmaker(
 Base = declarative_base()
 
 
+import datetime
+
+
 class TimestampMixin:
     """Mixin to add audit timestamp columns to models."""
 
     created_at = sqlalchemy.Column(
         sqlalchemy.DateTime(timezone=True),
         server_default=sqlalchemy.func.now(),
+        default=lambda: datetime.datetime.now(datetime.timezone.utc),
         nullable=False,
     )
     updated_at = sqlalchemy.Column(
         sqlalchemy.DateTime(timezone=True),
         server_default=sqlalchemy.func.now(),
-        onupdate=sqlalchemy.func.now(),
+        default=lambda: datetime.datetime.now(datetime.timezone.utc),
+        onupdate=lambda: datetime.datetime.now(datetime.timezone.utc),
         nullable=False,
     )
     deleted_at = sqlalchemy.Column(sqlalchemy.DateTime(timezone=True), nullable=True)

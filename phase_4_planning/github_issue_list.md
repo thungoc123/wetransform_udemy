@@ -489,7 +489,7 @@ Tài liệu này là danh sách issue gợi ý để GitHub Copilot tạo issue 
 - Estimate: 2 SP
 - Labels: priority:high, type:database, size:2
 - Depends on: DB-001, DB-002, DB-003
-- Suggested column: Backlog
+- Suggested column: Done
 - Summary: Đảm bảo toàn vẹn dữ liệu và khóa ngoại.
 
 ### [DB-005] Tạo indexes cho truy vấn thường dùng
@@ -498,7 +498,7 @@ Tài liệu này là danh sách issue gợi ý để GitHub Copilot tạo issue 
 - Estimate: 2 SP
 - Labels: priority:medium, type:database, size:2
 - Depends on: DB-004
-- Suggested column: Backlog
+- Suggested column: Done
 - Summary: Tối ưu bảng cho dashboard và analytics query.
 
 ### [DB-006] Implement soft delete và audit columns
@@ -507,7 +507,7 @@ Tài liệu này là danh sách issue gợi ý để GitHub Copilot tạo issue 
 - Estimate: 2 SP
 - Labels: priority:medium, type:database, size:2
 - Depends on: DB-004
-- Suggested column: Backlog
+- Suggested column: Done
 - Summary: Bổ sung soft delete và audit timestamp.
 
 ### [DB-007] Tạo migration scripts cho tất cả bảng
@@ -516,7 +516,7 @@ Tài liệu này là danh sách issue gợi ý để GitHub Copilot tạo issue 
 - Estimate: 3 SP
 - Labels: priority:high, type:database, size:3
 - Depends on: DB-005, DB-006
-- Suggested column: Backlog
+- Suggested column: Done
 - Summary: Tạo migration scripts chạy trên dev/staging.
 
 ### [DB-008] Tạo seed data cho môi trường phát triển

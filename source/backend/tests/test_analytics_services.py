@@ -1,16 +1,18 @@
-import pytest
 import uuid
-from datetime import datetime, timezone, timedelta
+from datetime import datetime, timedelta, timezone
+from unittest.mock import patch
+
+import pytest
 from httpx import AsyncClient
 from sqlalchemy import select
 
 from app.database import Base
-from tests.conftest import engine, TestingSessionLocal
-from app.models.teacher import Teacher
-from app.models.course import Course, Module, Lesson
-from app.models.activity import StudentEnrollment, LearningActivity
+from app.models.activity import LearningActivity, StudentEnrollment
 from app.models.ai_intervention import AiInsight, Recommendation
-from app.shared.security import hash_password, create_access_token
+from app.models.course import Course, Lesson, Module
+from app.models.teacher import Teacher
+from app.shared.security import create_access_token, hash_password
+from tests.conftest import TestingSessionLocal, engine
 
 
 @pytest.fixture(autouse=True)
@@ -37,7 +39,7 @@ async def test_data(db_session):
     teacher = Teacher(
         email="teacher@test.com",
         password_hash=hash_password("password"),
-        name="Test Teacher"
+        name="Test Teacher",
     )
     db_session.add(teacher)
     await db_session.commit()
@@ -48,18 +50,14 @@ async def test_data(db_session):
         teacher_id=teacher.id,
         title="Python testing course",
         student_count=35,
-        status="imported"
+        status="imported",
     )
     db_session.add(course)
     await db_session.commit()
     await db_session.refresh(course)
 
     # 3. Create Module
-    module = Module(
-        course_id=course.id,
-        title="Module 1: Introduction",
-        order_index=1
-    )
+    module = Module(course_id=course.id, title="Module 1: Introduction", order_index=1)
     db_session.add(module)
     await db_session.commit()
     await db_session.refresh(module)
@@ -72,7 +70,7 @@ async def test_data(db_session):
         type="video",
         order_index=1,
         duration_seconds=600,
-        student_count=35
+        student_count=35,
     )
     lesson2 = Lesson(
         course_id=course.id,
@@ -81,7 +79,7 @@ async def test_data(db_session):
         type="video",
         order_index=2,
         duration_seconds=500,
-        student_count=25
+        student_count=25,
     )
     lesson3 = Lesson(
         course_id=course.id,
@@ -89,7 +87,7 @@ async def test_data(db_session):
         title="Lesson 3: Functions",
         type="quiz",
         order_index=3,
-        student_count=5
+        student_count=5,
     )
     db_session.add_all([lesson1, lesson2, lesson3])
     await db_session.commit()
@@ -100,7 +98,7 @@ async def test_data(db_session):
     # 5. Create 35 Students and their learning activities
     now = datetime.now(timezone.utc)
     enrollments = []
-    
+
     # 15 active students (last activity <= 7 days ago)
     for i in range(15):
         student = StudentEnrollment(
@@ -109,7 +107,7 @@ async def test_data(db_session):
             masked_name=f"Stu*** {i}",
             status="active",
             last_activity_at=now - timedelta(days=2),
-            progress_percent=100.0  # Finished course
+            progress_percent=100.0,  # Finished course
         )
         enrollments.append(student)
 
@@ -121,7 +119,7 @@ async def test_data(db_session):
             masked_name=f"Stu*** {i}",
             status="at_risk",
             last_activity_at=now - timedelta(days=20),
-            progress_percent=33.33  # Stopped after lesson 1
+            progress_percent=33.33,  # Stopped after lesson 1
         )
         enrollments.append(student)
 
@@ -133,7 +131,7 @@ async def test_data(db_session):
             masked_name=f"Stu*** {i}",
             status="inactive",
             last_activity_at=now - timedelta(days=35),
-            progress_percent=66.67  # Stopped after lesson 2
+            progress_percent=66.67,  # Stopped after lesson 2
         )
         enrollments.append(student)
 
@@ -154,7 +152,7 @@ async def test_data(db_session):
             started_at=now - timedelta(days=40),
             ended_at=now - timedelta(days=40),
             duration_seconds=500,
-            is_completed=True
+            is_completed=True,
         )
         activities.append(act)
 
@@ -169,7 +167,7 @@ async def test_data(db_session):
             ended_at=now - timedelta(days=35),
             duration_seconds=400,
             video_stop_at_second=120 if enrollment.id.int % 2 == 0 else 240,
-            is_completed=True
+            is_completed=True,
         )
         activities.append(act)
 
@@ -182,7 +180,7 @@ async def test_data(db_session):
             activity_type="quiz",
             started_at=now - timedelta(days=2),
             ended_at=now - timedelta(days=2),
-            is_completed=True
+            is_completed=True,
         )
         activities.append(act)
 
@@ -199,7 +197,7 @@ async def test_data(db_session):
         "lesson1": lesson1,
         "lesson2": lesson2,
         "lesson3": lesson3,
-        "headers": headers
+        "headers": headers,
     }
 
 
@@ -209,18 +207,20 @@ async def test_dashboard_metrics(client: AsyncClient, test_data: dict):
     course_id = test_data["course"].id
     headers = test_data["headers"]
 
-    response = await client.get(f"/api/v1/courses/{course_id}/dashboard", headers=headers)
+    response = await client.get(
+        f"/api/v1/courses/{course_id}/dashboard", headers=headers
+    )
     assert response.status_code == 200
-    
+
     res_data = response.json()
     assert res_data["success"] is True
-    
+
     dashboard = res_data["data"]
     assert dashboard["activeStudents"] == 15
     assert dashboard["atRiskStudents"] == 5
     assert dashboard["inactiveStudents"] == 15
     assert dashboard["dropOffRate"] == round(20 / 35, 4)  # (15 + 5) / 35
-    expected_completion = (15*1.0 + 5*0.3333 + 15*0.6667) / 35
+    expected_completion = (15 * 1.0 + 5 * 0.3333 + 15 * 0.6667) / 35
     assert abs(dashboard["completionRate"] - expected_completion) < 0.01
 
 
@@ -230,30 +230,32 @@ async def test_drop_off_analysis(client: AsyncClient, test_data: dict):
     course_id = test_data["course"].id
     headers = test_data["headers"]
 
-    response = await client.get(f"/api/v1/courses/{course_id}/drop-off-analysis", headers=headers)
+    response = await client.get(
+        f"/api/v1/courses/{course_id}/drop-off-analysis", headers=headers
+    )
     assert response.status_code == 200
-    
+
     res_data = response.json()
     assert res_data["success"] is True
-    
+
     modules = res_data["data"]["modules"]
     assert len(modules) == 1
     assert modules[0]["moduleTitle"] == "Module 1: Introduction"
-    
+
     lessons = modules[0]["lessons"]
     assert len(lessons) == 3
-    
+
     # Lesson 1 (Installation): 35 started. 5 stopped here. drop-off rate = 5/35 = 14.28%
     assert lessons[0]["lessonTitle"] == "Lesson 1: Installation"
-    assert abs(lessons[0]["dropOffRate"] - 5/35) < 0.01
+    assert abs(lessons[0]["dropOffRate"] - 5 / 35) < 0.01
     assert lessons[0]["hasWarning"] is False
-    
+
     # Lesson 2 (Variables): 30 started. 20 stopped here. drop-off rate = 20/30 = 66.67%
     assert lessons[1]["lessonTitle"] == "Lesson 2: Variables"
-    assert abs(lessons[1]["dropOffRate"] - 20/30) < 0.01
+    assert abs(lessons[1]["dropOffRate"] - 20 / 30) < 0.01
     assert lessons[1]["hasWarning"] is True
     assert len(lessons[1]["timelineAnalysis"]) > 0
-    
+
     # Lesson 3 (Functions): 10 started (< 30 student count threshold).
     assert lessons[2]["lessonTitle"] == "Lesson 3: Functions"
     assert lessons[2]["dropOffRate"] is None
@@ -290,7 +292,18 @@ async def test_lesson_analytics_detail(client: AsyncClient, test_data: dict):
 
 
 @pytest.mark.asyncio
-async def test_ai_insights_generation_and_caching(client: AsyncClient, test_data: dict, db_session):
+@patch("app.modules.analytics.service.generate_insight_via_llm")
+async def test_ai_insights_generation_and_caching(
+    mock_generate, client: AsyncClient, test_data: dict, db_session
+):
+    mock_generate.return_value = {
+        "hypothesis": "Video có thời lượng quá dài",
+        "confidence_score": 0.85,
+        "suggestions": ["Cắt video", "Thêm quiz", "Chia nhỏ"],
+        "raw_prompt": "Mock prompt",
+        "raw_response": "Mock response",
+        "model_version": "mock-gpt-4",
+    }
     """Test GET /api/v1/courses/{courseId}/lessons/{lessonId}/ai-insights."""
     course_id = test_data["course"].id
     lesson1_id = test_data["lesson1"].id
@@ -313,9 +326,9 @@ async def test_ai_insights_generation_and_caching(client: AsyncClient, test_data
     assert len(res_data["insights"]) == 1
     assert "Video có thời lượng quá dài" in res_data["insights"][0]["hypothesis"]
     assert len(res_data["recommendations"]) == 3
-    
+
     insight_id = res_data["insights"][0]["insightId"]
-    recommendation_id = res_data["recommendations"][0]["recommendationId"]
+    assert "recommendationId" in res_data["recommendations"][0]
 
     # Verify saved in DB
     db_result = await db_session.execute(
@@ -339,7 +352,18 @@ async def test_ai_insights_generation_and_caching(client: AsyncClient, test_data
 
 
 @pytest.mark.asyncio
-async def test_recommendation_action(client: AsyncClient, test_data: dict, db_session):
+@patch("app.modules.analytics.service.generate_insight_via_llm")
+async def test_recommendation_action(
+    mock_generate, client: AsyncClient, test_data: dict, db_session
+):
+    mock_generate.return_value = {
+        "hypothesis": "Video có thời lượng quá dài",
+        "confidence_score": 0.85,
+        "suggestions": ["Cắt video", "Thêm quiz", "Chia nhỏ"],
+        "raw_prompt": "Mock prompt",
+        "raw_response": "Mock response",
+        "model_version": "mock-gpt-4",
+    }
     """Test POST /api/v1/courses/{courseId}/lessons/{lessonId}/recommendations/{recommendationId}/action."""
     course_id = test_data["course"].id
     lesson1_id = test_data["lesson1"].id
@@ -355,15 +379,15 @@ async def test_recommendation_action(client: AsyncClient, test_data: dict, db_se
     response_invalid = await client.post(
         f"/api/v1/courses/{course_id}/lessons/{lesson1_id}/recommendations/{rec_id}/action",
         json={"action": "invalid_action"},
-        headers=headers
+        headers=headers,
     )
-    assert response_invalid.status_code == 422 # FastAPI validation error
+    assert response_invalid.status_code == 422  # FastAPI validation error
 
     # Test apply recommendation
     response_apply = await client.post(
         f"/api/v1/courses/{course_id}/lessons/{lesson1_id}/recommendations/{rec_id}/action",
         json={"action": "applied"},
-        headers=headers
+        headers=headers,
     )
     assert response_apply.status_code == 200
     assert response_apply.json()["data"]["status"] == "applied"
@@ -381,24 +405,30 @@ async def test_analytics_endpoints_unauthorized(client: AsyncClient, test_data: 
     """Test that requesting analytics endpoints without valid JWT token returns 401."""
     course_id = test_data["course"].id
     lesson1_id = test_data["lesson1"].id
-    
+
     # 1. Test Dashboard Endpoint without auth headers
     response = await client.get(f"/api/v1/courses/{course_id}/dashboard")
     assert response.status_code == 401
-    
+
     # 2. Test Drop-off Endpoint without auth headers
     response = await client.get(f"/api/v1/courses/{course_id}/drop-off-analysis")
     assert response.status_code == 401
 
     # 3. Test Lesson Analytics Endpoint without auth headers
-    response = await client.get(f"/api/v1/courses/{course_id}/lessons/{lesson1_id}/analytics")
+    response = await client.get(
+        f"/api/v1/courses/{course_id}/lessons/{lesson1_id}/analytics"
+    )
     assert response.status_code == 401
 
     # 4. Test AI Insights Endpoint without auth headers
-    response = await client.get(f"/api/v1/courses/{course_id}/lessons/{lesson1_id}/ai-insights")
+    response = await client.get(
+        f"/api/v1/courses/{course_id}/lessons/{lesson1_id}/ai-insights"
+    )
     assert response.status_code == 401
 
     # 5. Test with invalid token format
     headers = {"Authorization": "Bearer invalid_token"}
-    response = await client.get(f"/api/v1/courses/{course_id}/dashboard", headers=headers)
+    response = await client.get(
+        f"/api/v1/courses/{course_id}/dashboard", headers=headers
+    )
     assert response.status_code == 401

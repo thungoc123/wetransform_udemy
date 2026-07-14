@@ -5,7 +5,7 @@ This module provides a Singleton RedisCacheService for interacting with Redis.
 """
 
 import json
-from typing import Any, Optional
+from typing import Any
 
 import structlog
 from redis.asyncio import Redis, from_url  # type: ignore
@@ -19,7 +19,7 @@ class RedisCacheService:
     """Service to interact with Redis for caching."""
 
     def __init__(self) -> None:
-        self.redis: Optional[Redis] = None
+        self.redis: Redis | None = None
 
     async def init_cache(self) -> None:
         """Initialize the Redis connection pool."""
@@ -42,7 +42,7 @@ class RedisCacheService:
             await self.redis.aclose()
             logger.info("redis_closed")
 
-    async def get(self, key: str) -> Optional[dict[str, Any]]:
+    async def get(self, key: str) -> dict[str, Any] | None:
         """Get a value from cache."""
         if not self.redis:
             return None

@@ -1,7 +1,7 @@
 import uuid
 from datetime import datetime
-from typing import Any, List, Optional
-from pydantic import BaseModel, ConfigDict, Field, field_validator
+
+from pydantic import BaseModel, ConfigDict, field_validator
 from pydantic.alias_generators import to_camel
 
 
@@ -31,19 +31,19 @@ class LessonDropOff(CamelModel):
     lesson_id: uuid.UUID
     lesson_title: str
     type: str
-    drop_off_rate: Optional[float] = None
+    drop_off_rate: float | None = None
     has_warning: bool
-    timeline_analysis: Optional[List[TimelinePoint]] = None
+    timeline_analysis: list[TimelinePoint] | None = None
 
 
 class ModuleDropOff(CamelModel):
     module_id: uuid.UUID
     module_title: str
-    lessons: List[LessonDropOff]
+    lessons: list[LessonDropOff]
 
 
 class DropOffResponse(CamelModel):
-    modules: List[ModuleDropOff]
+    modules: list[ModuleDropOff]
 
 
 class EngagementMetrics(CamelModel):
@@ -57,8 +57,8 @@ class LessonAnalyticsResponse(CamelModel):
     lesson_title: str
     type: str
     engagement_metrics: EngagementMetrics
-    timeline_analysis: Optional[List[TimelinePoint]] = None
-    reliability_message: Optional[str] = None
+    timeline_analysis: list[TimelinePoint] | None = None
+    reliability_message: str | None = None
 
 
 class InsightDetail(CamelModel):
@@ -75,9 +75,11 @@ class RecommendationDetail(CamelModel):
 
 class AIInsightResponse(CamelModel):
     lesson_id: uuid.UUID
-    insights: List[InsightDetail]
-    recommendations: List[RecommendationDetail]
-    disclaimer_text: str = "AI chỉ mang tính chất tham khảo. Quyết định cuối cùng thuộc về giáo viên."
+    insights: list[InsightDetail]
+    recommendations: list[RecommendationDetail]
+    disclaimer_text: str = (
+        "AI chỉ mang tính chất tham khảo. Quyết định cuối cùng thuộc về giáo viên."
+    )
 
 
 class RecommendationActionRequest(CamelModel):
