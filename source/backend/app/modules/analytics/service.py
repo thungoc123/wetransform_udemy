@@ -373,6 +373,9 @@ class AnalyticsService:
             completion_rate=completion_rate,
             drop_off_rate=drop_off_rate,
             timeline=db_timeline,
+            course_id=course_id,
+            lesson_id=lesson_id,
+            db=self.repository.db,
         )
 
         # 5. Save to database

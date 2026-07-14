@@ -15,14 +15,7 @@ from app.shared.security import create_access_token, hash_password
 from tests.conftest import TestingSessionLocal, engine
 
 
-@pytest.fixture(autouse=True)
-async def setup_db():
-    """Recreate all tables for each test."""
-    async with engine.begin() as conn:
-        await conn.run_sync(Base.metadata.create_all)
-    yield
-    async with engine.begin() as conn:
-        await conn.run_sync(Base.metadata.drop_all)
+
 
 
 @pytest.fixture
