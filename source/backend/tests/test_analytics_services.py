@@ -374,3 +374,31 @@ async def test_recommendation_action(client: AsyncClient, test_data: dict, db_se
     )
     rec_db = db_result.scalar_one()
     assert rec_db.status == "applied"
+
+
+@pytest.mark.asyncio
+async def test_analytics_endpoints_unauthorized(client: AsyncClient, test_data: dict):
+    """Test that requesting analytics endpoints without valid JWT token returns 401."""
+    course_id = test_data["course"].id
+    lesson1_id = test_data["lesson1"].id
+    
+    # 1. Test Dashboard Endpoint without auth headers
+    response = await client.get(f"/api/v1/courses/{course_id}/dashboard")
+    assert response.status_code == 401
+    
+    # 2. Test Drop-off Endpoint without auth headers
+    response = await client.get(f"/api/v1/courses/{course_id}/drop-off-analysis")
+    assert response.status_code == 401
+
+    # 3. Test Lesson Analytics Endpoint without auth headers
+    response = await client.get(f"/api/v1/courses/{course_id}/lessons/{lesson1_id}/analytics")
+    assert response.status_code == 401
+
+    # 4. Test AI Insights Endpoint without auth headers
+    response = await client.get(f"/api/v1/courses/{course_id}/lessons/{lesson1_id}/ai-insights")
+    assert response.status_code == 401
+
+    # 5. Test with invalid token format
+    headers = {"Authorization": "Bearer invalid_token"}
+    response = await client.get(f"/api/v1/courses/{course_id}/dashboard", headers=headers)
+    assert response.status_code == 401
