@@ -1,7 +1,7 @@
 """Tests for RedisCacheService."""
 
 import pytest
-from fakeredis.aioredis import FakeRedis
+from fakeredis import FakeAsyncRedis
 
 from app.shared.cache import RedisCacheService
 
@@ -11,7 +11,7 @@ async def cache_service():
     """Fixture to provide a RedisCacheService using fakeredis."""
     service = RedisCacheService()
     # Inject fakeredis instead of real Redis
-    service.redis = FakeRedis(decode_responses=True)
+    service.redis = FakeAsyncRedis(decode_responses=True)
     yield service
     await service.close()
 
