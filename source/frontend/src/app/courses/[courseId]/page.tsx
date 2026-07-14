@@ -1,16 +1,24 @@
-type CoursePageProps = {
+import { CourseDashboard } from "@/components/course-analytics/course-dashboard";
+import { DashboardShell } from "@/components/layout/dashboard-shell";
+
+interface CoursePageProps {
 	params: {
 		courseId: string;
 	};
-};
+	searchParams?: {
+		state?: string;
+	};
+}
 
-export default function CoursePage({ params }: CoursePageProps) {
+export default function CourseDetailPage({ params, searchParams }: CoursePageProps) {
+	const state =
+		searchParams?.state === "empty" || searchParams?.state === "loading-error"
+			? searchParams.state
+			: "default";
+
 	return (
-		<main className="page-shell">
-			<section className="content-card">
-				<h1>Course Overview</h1>
-				<p>Course ID: {params.courseId}</p>
-			</section>
-		</main>
+		<DashboardShell>
+			<CourseDashboard courseId={params.courseId} state={state} />
+		</DashboardShell>
 	);
 }

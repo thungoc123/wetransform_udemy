@@ -1,20 +1,30 @@
-import "./globals.css";
 import type { Metadata } from "next";
-import type { ReactNode } from "react";
+import { Inter, JetBrains_Mono } from "next/font/google";
+import "./globals.css";
+
+const inter = Inter({
+	subsets: ["latin"],
+	variable: "--font-inter",
+});
+
+const jetbrainsMono = JetBrains_Mono({
+	subsets: ["latin"],
+	variable: "--font-jetbrains-mono",
+});
 
 export const metadata: Metadata = {
-	title: "AI Learning Analytics",
-	description: "Frontend shell for the AI Learning Analytics MVP.",
+	title: "EduInsight AI",
+	description: "AI learning analytics platform for teachers",
 };
 
-type RootLayoutProps = {
-	children: ReactNode;
-};
-
-export default function RootLayout({ children }: RootLayoutProps) {
+export default function RootLayout({
+	children,
+}: Readonly<{
+	children: React.ReactNode;
+}>) {
 	return (
 		<html lang="en">
-			<body>{children}</body>
+			<body className={`${inter.variable} ${jetbrainsMono.variable}`}>{children}</body>
 		</html>
 	);
 }

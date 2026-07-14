@@ -1,16 +1,16 @@
-type RemindersPageProps = {
+import { DashboardShell } from "@/components/layout/dashboard-shell";
+import { AtRiskStudentList } from "@/components/student-intervention/at-risk-student-list";
+
+interface CourseRemindersPageProps {
 	params: {
 		courseId: string;
 	};
-};
+}
 
-export default function RemindersPage({ params }: RemindersPageProps) {
+export default function CourseRemindersPage({ params }: CourseRemindersPageProps) {
 	return (
-		<main className="page-shell">
-			<section className="content-card">
-				<h1>Student Reminders</h1>
-				<p>Course ID: {params.courseId}</p>
-			</section>
-		</main>
+		<DashboardShell>
+			<AtRiskStudentList courseId={params.courseId} />
+		</DashboardShell>
 	);
 }

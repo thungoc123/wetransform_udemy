@@ -1,16 +1,16 @@
-type DropOffPageProps = {
+import { DropOffAnalysis } from "@/components/course-analytics/drop-off-analysis";
+import { DashboardShell } from "@/components/layout/dashboard-shell";
+
+interface CourseDropOffPageProps {
 	params: {
 		courseId: string;
 	};
-};
+}
 
-export default function DropOffPage({ params }: DropOffPageProps) {
+export default function CourseDropOffPage({ params }: CourseDropOffPageProps) {
 	return (
-		<main className="page-shell">
-			<section className="content-card">
-				<h1>Drop-off Analysis</h1>
-				<p>Course ID: {params.courseId}</p>
-			</section>
-		</main>
+		<DashboardShell>
+			<DropOffAnalysis courseId={params.courseId} />
+		</DashboardShell>
 	);
 }
