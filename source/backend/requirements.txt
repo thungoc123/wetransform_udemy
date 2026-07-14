@@ -126,3 +126,4 @@ Werkzeug==3.1.8
 wrapt==2.2.2
 xxhash==3.8.1
 zstandard==0.25.0
+fakeredis>=2.36.2

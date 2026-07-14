@@ -11,6 +11,7 @@ from app.modules.analytics import router as analytics_router
 from app.modules.auth import router as auth_router
 from app.modules.data_import import router as data_import_router
 from app.modules.intervention import router as intervention_router
+from app.shared.cache import redis_cache
 from app.shared.dependencies.database import get_db
 from app.shared.exceptions import (
     AppException,
@@ -32,8 +33,12 @@ async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
     # Khởi tạo OpenTelemetry (Tracing & Metrics)
     setup_observability(app)
 
+    # Khởi tạo Redis Cache
+    await redis_cache.init_cache()
+
     yield
     # Cleanup nếu cần
+    await redis_cache.close()
 
 
 tags_metadata = [

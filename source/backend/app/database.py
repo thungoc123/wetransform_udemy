@@ -5,6 +5,7 @@ This module provides the global asynchronous SQLAlchemy engine,
 session maker, and declarative base used across the application.
 """
 
+import sqlalchemy
 from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker, create_async_engine
 from sqlalchemy.orm import declarative_base
 
@@ -24,5 +25,23 @@ async_session_maker = async_sessionmaker(
     bind=engine, class_=AsyncSession, expire_on_commit=False, autoflush=False
 )
 
+
 # Declarative Base for all ORM models
 Base = declarative_base()
+
+
+class TimestampMixin:
+    """Mixin to add audit timestamp columns to models."""
+
+    created_at = sqlalchemy.Column(
+        sqlalchemy.DateTime(timezone=True),
+        server_default=sqlalchemy.func.now(),
+        nullable=False,
+    )
+    updated_at = sqlalchemy.Column(
+        sqlalchemy.DateTime(timezone=True),
+        server_default=sqlalchemy.func.now(),
+        onupdate=sqlalchemy.func.now(),
+        nullable=False,
+    )
+    deleted_at = sqlalchemy.Column(sqlalchemy.DateTime(timezone=True), nullable=True)
