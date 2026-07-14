@@ -78,10 +78,16 @@ def send_reminder_email_task(
     lesson_id = uuid.UUID(lesson_id_str)
     teacher_id = uuid.UUID(teacher_id_str)
 
-    asyncio.run(
-        _mock_send_email_and_log(
-            course_id, lesson_id, teacher_id, student_ids, message_body
-        )
+    coro = _mock_send_email_and_log(
+        course_id, lesson_id, teacher_id, student_ids, message_body
     )
+    try:
+        loop = asyncio.get_running_loop()
+        if loop.is_running():
+            loop.create_task(coro)
+        else:
+            loop.run_until_complete(coro)
+    except RuntimeError:
+        asyncio.run(coro)
 
     return len(student_ids)

@@ -8,13 +8,15 @@ from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker, create_asyn
 from app.main import app
 from app.shared.dependencies.database import get_db
 
+from sqlalchemy.pool import StaticPool
+
 # Use an in-memory SQLite database for testing
 TEST_DATABASE_URL = "sqlite+aiosqlite:///:memory:"
 
 engine = create_async_engine(
     TEST_DATABASE_URL,
     connect_args={"check_same_thread": False},
-    poolclass=None,
+    poolclass=StaticPool,
 )
 
 TestingSessionLocal = async_sessionmaker(
@@ -26,9 +28,22 @@ TestingSessionLocal = async_sessionmaker(
 )
 
 
+from app.database import Base
+from app import models  # Ensure all models are loaded and registered on Base.metadata
+
+
 async def override_get_db() -> AsyncGenerator[AsyncSession, None]:
     async with TestingSessionLocal() as session:
         yield session
+
+
+@pytest.fixture(autouse=True)
+async def setup_db():
+    """Recreate all tables for each test function to ensure clean state."""
+    async with engine.begin() as conn:
+        await conn.run_sync(Base.metadata.drop_all)
+        await conn.run_sync(Base.metadata.create_all)
+    yield
 
 
 app.dependency_overrides[get_db] = override_get_db

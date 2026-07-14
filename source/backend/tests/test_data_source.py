@@ -12,7 +12,11 @@ def override_get_current_teacher():
     return Teacher(id=uuid.uuid4(), email="test@example.com")
 
 
-app.dependency_overrides[get_current_teacher] = override_get_current_teacher
+@pytest.fixture(autouse=True)
+def setup_overrides():
+    app.dependency_overrides[get_current_teacher] = override_get_current_teacher
+    yield
+    app.dependency_overrides.pop(get_current_teacher, None)
 
 
 @pytest.mark.asyncio

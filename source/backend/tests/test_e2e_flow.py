@@ -15,17 +15,11 @@ from app.worker import celery_app
 from tests.conftest import TestingSessionLocal, engine
 
 # Configure celery
-celery_app.conf.task_always_eager = False
-celery_app.conf.task_eager_propagates = False
+celery_app.conf.task_always_eager = True
+celery_app.conf.task_eager_propagates = True
 
 
-@pytest.fixture(autouse=True)
-async def setup_db():
-    """Recreate all tables for each test."""
-    async with engine.begin() as conn:
-        await conn.run_sync(Base.metadata.drop_all)
-        await conn.run_sync(Base.metadata.create_all)
-    yield
+
 
 
 @pytest.fixture
@@ -78,7 +72,7 @@ async def test_e2e_user_flow(client: AsyncClient, test_teacher: Teacher, db_sess
         csv_lines.append(f"E2E Course,Lesson 3,video,Student_{i},0.1")
 
     csv_content = "\n".join(csv_lines) + "\n"
-    csv_path = "/tmp/e2e_test_data.csv"
+    csv_path = "e2e_test_data.csv"
     with open(csv_path, "w") as f:
         f.write(csv_content)
 
