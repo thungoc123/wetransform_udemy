@@ -1,5 +1,5 @@
+from collections.abc import AsyncGenerator
 from contextlib import asynccontextmanager
-from typing import AsyncGenerator
 
 from fastapi import Depends, FastAPI
 from fastapi.exceptions import RequestValidationError
@@ -10,7 +10,13 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from app.modules.analytics import router as analytics_router
 from app.modules.auth import router as auth_router
 from app.modules.data_import import router as data_import_router
+from app.modules.data_source import router as data_source_router
 from app.modules.intervention import router as intervention_router
+from app.worker import celery_app
+
+# Set default Celery app for this FastAPI process
+celery_app.set_default()
+
 from app.shared.cache import redis_cache
 from app.shared.dependencies.database import get_db
 from app.shared.exceptions import (
@@ -63,9 +69,9 @@ app = FastAPI(
 )
 
 # Register Exception Handlers
-app.add_exception_handler(AppException, app_exception_handler)
-app.add_exception_handler(RequestValidationError, validation_exception_handler)
-app.add_exception_handler(Exception, global_exception_handler)
+app.add_exception_handler(AppException, app_exception_handler)  # type: ignore
+app.add_exception_handler(RequestValidationError, validation_exception_handler)  # type: ignore
+app.add_exception_handler(Exception, global_exception_handler)  # type: ignore
 
 # Add Logging Middleware first so it wraps everything
 app.add_middleware(LoggingMiddleware)
@@ -91,6 +97,7 @@ app.add_middleware(
 # Include module routers
 app.include_router(auth_router)
 app.include_router(data_import_router)
+app.include_router(data_source_router)
 app.include_router(analytics_router)
 app.include_router(intervention_router)
 

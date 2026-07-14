@@ -1,5 +1,3 @@
-from typing import Optional
-
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
@@ -22,15 +20,16 @@ class Settings(BaseSettings):
     # AI / LLM
     OPENAI_API_KEY: str
     OPENAI_MODEL: str = "gpt-4o"
-    LANGCHAIN_TRACING_V2: Optional[str] = "false"
-    LANGSMITH_API_KEY: Optional[str] = None
+    LANGCHAIN_TRACING_V2: str | None = "false"
+    LANGSMITH_API_KEY: str | None = None
 
     # Email
-    SENDGRID_API_KEY: Optional[str] = None
+    SENDGRID_API_KEY: str | None = None
     FROM_EMAIL: str = "noreply@learning-analytics.com"
 
     # Encryption
     AES_SECRET_KEY: str
+    ENCRYPTION_KEY: str
 
     model_config = SettingsConfigDict(
         env_file=".env", env_file_encoding="utf-8", extra="ignore"

@@ -5,7 +5,7 @@ This module provides functionality for logging critical business events
 (audit trails) with context such as user ID, resources, and client IPs.
 """
 
-from typing import Any, Optional
+from typing import Any
 
 import structlog
 from fastapi import Request
@@ -15,10 +15,10 @@ logger = structlog.get_logger("audit")
 
 async def log_audit_event(
     action: str,
-    teacher_id: Optional[str] = None,
-    resource: Optional[str] = None,
-    details: Optional[dict[str, Any]] = None,
-    request: Optional[Request] = None,
+    teacher_id: str | None = None,
+    resource: str | None = None,
+    details: dict[str, Any] | None = None,
+    request: Request | None = None,
 ) -> None:
     """
     Log an audit event.

@@ -1,21 +1,22 @@
-import json
-from typing import List, Tuple, Dict, Any
+from typing import Any
+
+from langchain_core.messages import HumanMessage, SystemMessage
+from langchain_openai import ChatOpenAI
 from pydantic import BaseModel, Field
 
-from langchain_core.messages import SystemMessage, HumanMessage
-from langchain_openai import ChatOpenAI
 from app.config import settings
 
 
 class AIInsightParsed(BaseModel):
     """Structured response schema for AI analysis of a lesson."""
+
     hypothesis: str = Field(
         description="Giả thuyết nguyên nhân học viên bỏ dở bài học (ví dụ: video quá dài, bài tập quá phức tạp, ...)"
     )
     confidence_score: float = Field(
         description="Độ tin cậy của giả thuyết, giá trị float trong khoảng từ 0.0 đến 1.0"
     )
-    suggestions: List[str] = Field(
+    suggestions: list[str] = Field(
         description="Danh sách đề xuất hành động cải thiện bài học cụ thể, tối đa 3 đề xuất"
     )
 
@@ -26,8 +27,8 @@ async def generate_insight_via_llm(
     student_count: int,
     completion_rate: float,
     drop_off_rate: float,
-    timeline: List[Tuple[int, int]]
-) -> Dict[str, Any]:
+    timeline: list[tuple[int, int]],
+) -> dict[str, Any]:
     """
     Formulates a prompt with learning analytics and queries OpenAI GPT-4o
     to generate insights and actionable recommendations.
@@ -40,11 +41,11 @@ async def generate_insight_via_llm(
             "suggestions": [
                 "Chia nhỏ video bài giảng thành các phần dưới 5 phút.",
                 "Bổ sung bài trắc nghiệm ngắn (Quiz) xen kẽ để tăng tương tác.",
-                "Tối ưu lại phần giải thích ở phút thứ 4."
+                "Tối ưu lại phần giải thích ở phút thứ 4.",
             ],
             "raw_prompt": "Simulated prompt for testing",
             "raw_response": "Simulated response for testing",
-            "model_version": "simulated-gpt-4o"
+            "model_version": "simulated-gpt-4o",
         }
 
     # 2. Build prompts
@@ -64,7 +65,9 @@ async def generate_insight_via_llm(
     )
 
     if timeline:
-        timeline_str = "\n".join([f"+ Giây thứ {sec}: có {cnt} học viên tạm dừng" for sec, cnt in timeline])
+        timeline_str = "\n".join(
+            [f"+ Giây thứ {sec}: có {cnt} học viên tạm dừng" for sec, cnt in timeline]
+        )
         user_message += f"- Biểu đồ dòng thời gian mốc giây mà học viên bấm dừng video nhiều nhất:\n{timeline_str}\n"
 
     user_message += (
@@ -76,18 +79,16 @@ async def generate_insight_via_llm(
 
     # 3. Invoke OpenAI via LangChain with structured output
     llm = ChatOpenAI(
-        model=settings.OPENAI_MODEL,
-        api_key=settings.OPENAI_API_KEY,
-        temperature=0.2
+        model=settings.OPENAI_MODEL, api_key=settings.OPENAI_API_KEY, temperature=0.2
     )
-    
+
     structured_llm = llm.with_structured_output(AIInsightParsed)
-    
+
     messages = [
         SystemMessage(content=system_message),
-        HumanMessage(content=user_message)
+        HumanMessage(content=user_message),
     ]
-    
+
     result = await structured_llm.ainvoke(messages)
 
     raw_prompt = f"SYSTEM:\n{system_message}\n\nUSER:\n{user_message}"
@@ -99,5 +100,5 @@ async def generate_insight_via_llm(
         "suggestions": result.suggestions,
         "raw_prompt": raw_prompt,
         "raw_response": raw_response,
-        "model_version": settings.OPENAI_MODEL
+        "model_version": settings.OPENAI_MODEL,
     }
